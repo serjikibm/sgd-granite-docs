@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgranite_docs=self.webpackChunkgranite_docs||[]).push([["3772"],{7034(e){e.exports=JSON.parse('{"name":"blog-posts-data","id":"default"}')}}]);

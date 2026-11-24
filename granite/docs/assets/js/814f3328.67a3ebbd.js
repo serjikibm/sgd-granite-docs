@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgranite_docs=self.webpackChunkgranite_docs||[]).push([["1833"],{5513(e){e.exports=JSON.parse('{"title":"Recent posts","items":[]}')}}]);

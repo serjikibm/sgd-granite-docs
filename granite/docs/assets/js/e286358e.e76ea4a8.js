@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgranite_docs=self.webpackChunkgranite_docs||[]).push([["2694"],{2680(e){e.exports=JSON.parse('{"metadata":{"permalink":"/sgd-granite-docs/granite/docs/blog","page":1,"postsPerPage":13,"totalPages":1,"totalCount":3,"blogDescription":"News, releases, and deep dives from the IBM Granite team.","blogTitle":"Granite Blog"}}')}}]);

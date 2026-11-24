@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkgranite_docs=self.webpackChunkgranite_docs||[]).push([["3220"],{1912(s){s.exports=JSON.parse('{"blogBasePath":"/sgd-granite-docs/granite/docs/blog","blogTitle":"Granite Blog","authorsListPath":"/sgd-granite-docs/granite/docs/blog/authors"}')}}]);
