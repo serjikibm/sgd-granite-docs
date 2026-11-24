@@ -9,6 +9,10 @@ name: Docs
 #   Upstream → https://ibm-granite.github.io/docs/granite/docs/  (repo stays named 'docs')
 #   IBM.com  → https://www.ibm.com/granite/docs/                 (Akamai proxies /granite/docs/*)
 #
+# Deploys: upstream deploys on every push to main. A fork deploys on pushes to its main
+# and when the workflow is run manually on any branch, so a fork can preview a branch
+# (for example a long-lived staging branch) without changing its main.
+#
 # The deploy job copies the build into gh-deploy/granite/docs/ then publishes gh-deploy/ as
 # the gh-pages branch root. GitHub Pages serves it at /{repo-name}/granite/docs/ for any
 # repo name — no rename required. All assets (JS, CSS, fonts) also land under granite/docs/,
@@ -142,7 +146,14 @@ jobs:
     permissions:
       contents: write
     timeout-minutes: 10
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # Upstream (ibm-granite/docs): deploy only on pushes to main.
+    # Forks: also deploy when the workflow is run manually (Actions → Docs → Run workflow,
+    # or `gh workflow run docs-publish.yml --ref <branch>`), from whichever branch is picked.
+    # This lets a fork preview a branch without changing its main. In upstream, a manual
+    # run still only builds.
+    if: >-
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      (github.event_name == 'workflow_dispatch' && github.repository != 'ibm-granite/docs')
 
     steps:
       - name: Download site artifact

@@ -59,7 +59,16 @@ Without the variables, the defaults are `/granite/docs/` and `https://ibm-granit
 
 The deploy job copies the build into `granite/docs/` on the `gh-pages` branch. That way GitHub Pages serves every page and asset under the same `/granite/docs/` path that the proxy uses. For production, the direct `ibm-granite.github.io` URL doesn't work; use www.ibm.com/granite/docs/.
 
-**Preview from a fork:** in the fork's settings, set GitHub Pages to deploy from the `gh-pages` branch. Then push to the fork's `main`. The workflow deploys to `https://<user>.github.io/<repo>/granite/docs/`.
+**Preview from a fork:**
+
+1. In the fork's settings, set GitHub Pages to deploy from the `gh-pages` branch.
+2. Run the workflow manually on the branch you want to preview, from **Actions → Docs → Run workflow** or with:
+
+   ```bash
+   gh workflow run docs-publish.yml --repo <user>/<repo> --ref <branch>
+   ```
+
+The site deploys to `https://<user>.github.io/<repo>/granite/docs/`. A push to the fork's `main` also deploys, but leave `main` as a copy of upstream and preview from a branch instead. In `ibm-granite/docs`, a manual run only builds; production deploys only on pushes to `main`.
 
 **Building locally with a different base URL:** the build cache keeps links from the previous base URL. Run `npm run clear` first:
 
@@ -194,7 +203,7 @@ On every pull request and push to `main`, `.github/workflows/docs-publish.yml` r
 | markdownlint on `docs/` and `blog/` (rules in `docs/.markdownlint.json`) | No |
 | codespell on `docs/` and `blog/` | No |
 
-An external link check (lychee) runs weekly and on manual dispatch. A push to `main` also deploys the site.
+An external link check (lychee) runs weekly and on manual dispatch. A push to `main` also deploys the site. In a fork, a manual run deploys too (see [Base URL and deployment](#base-url-and-deployment)).
 
 ---
 
