@@ -2,7 +2,9 @@ name: Docs
 
 # Builds, validates, and deploys Docusaurus documentation to GitHub Pages.
 #
-# URL structure (routeBasePath: '/', baseUrl: /{repo-name}/granite/docs/):
+# Docs are served from the site root (routeBasePath: '/'), with the blog at /blog.
+#
+# URL structure (baseUrl: /{repo-name}/granite/docs/):
 #   Fork     → https://<user>.github.io/<repo-name>/granite/docs/
 #   Upstream → https://ibm-granite.github.io/docs/granite/docs/  (repo stays named 'docs')
 #   IBM.com  → https://www.ibm.com/granite/docs/                 (Akamai proxies /granite/docs/*)
@@ -63,11 +65,14 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
 
       - name: Build Docusaurus site
         id: build_site
@@ -78,16 +83,17 @@ jobs:
       - name: Lint markdown (markdownlint)
         id: markdownlint
         run: |
-          npx --yes markdownlint-cli2 "granite/docs/**/*.mdx" "granite/docs/**/*.md" \
-            --config granite/docs/.markdownlint.json 2>&1
+          npx --yes markdownlint-cli2 "docs/**/*.{md,mdx}" "blog/**/*.{md,mdx}" \
+            "#docs/models/_generated" \
+            --config docs/.markdownlint.json 2>&1
         continue-on-error: true
 
       - name: Spell check (codespell)
         id: codespell
         run: |
           pip install codespell --quiet
-          codespell granite/docs \
-            --skip="*.json" \
+          codespell docs blog \
+            --skip="*.json,docs/models/_generated" \
             --quiet-level=2
         continue-on-error: true
 
@@ -120,11 +126,10 @@ jobs:
         with:
           args: >
             --accept 200,206,429
-            --exclude-path granite/docs/resources
             --exclude "https://www.ibm.com"
             --exclude "https://www.ibm.com/granite"
             --timeout 20
-            granite/docs
+            docs blog
           fail: false
           token: ${{ secrets.GITHUB_TOKEN }}
 

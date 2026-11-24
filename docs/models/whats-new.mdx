@@ -1,0 +1,99 @@
+---
+sidebar_position: 2
+title: What's new in Granite models
+sidebar_label: What's new
+description: The latest Granite model releases across all families, newest first.
+toc_max_heading_level: 3
+---
+
+# What's new in Granite models
+
+:::note[Draft content]
+This page is draft content for review. Entries are summarized from the model cards on Hugging Face.
+:::
+
+{/*
+  How to add an entry:
+  - Add it at the top, under a "## Month YYYY" heading (create the heading if needed).
+  - Use "### <Release name>" and start with the date and family.
+  - Keep it to 2–4 sentences: what's new, and who should care. Details stay on the model card.
+  - End with links: model cards or collection, and the announcement post if there is one.
+*/}
+
+New Granite models and updates, newest first. Announcements are published on the [IBM Research blog](https://research.ibm.com/blog) and as articles on the [ibm-granite organization page](https://huggingface.co/ibm-granite) on Hugging Face. Each model card has the full details.
+
+## November 2026
+
+### LLMON preview models
+
+**November 12, 2026 · Language (preview)**
+
+LLMON is a new markup language that labels each part of a prompt, so the model can tell your instructions apart from the documents, data, and tool results it should only read. The Granite 4.1 3B and 8B LLMON preview models are trained to follow only the instructions they're pointed at, which makes them more resistant to prompt injection. These are experimental models, for exploration and evaluation rather than production use. See [LLMON](./concepts/llmon.mdx).
+
+[Granite 4.1 3B LLMON preview](https://huggingface.co/ibm-granite/granite-4.1-3b-llmon-preview) · [Granite 4.1 8B LLMON preview](https://huggingface.co/ibm-granite/granite-4.1-8b-llmon-preview) · [Announcement](https://huggingface.co/blog/ibm-granite/llmon-an-llm-native-markup-language-now-in-granite)
+
+## October 2026
+
+### Granite Switch 4.1.1
+
+**October 27, 2026 · Switch**
+
+Granite Switch 4.1.1 updates the 8B and 30B Switch models with new weights for the `decision` adapter. Like the 4.1 release, a single endpoint serves chat, decisions, safety checks, and speech-to-text. This release shows how Switch models can be updated one adapter at a time, without replacing the whole model.
+
+[Granite Switch 4.1 8B](https://huggingface.co/ibm-granite/granite-switch-4.1-8b) · [Granite Switch 4.1 30B](https://huggingface.co/ibm-granite/granite-switch-4.1-30b) · [Announcement](https://huggingface.co/blog/ibm-granite/granite-switch-4-1-1)
+
+### Granite Speech 5.0 TurboCTC goes multilingual
+
+**October 21, 2026 · Speech**
+
+Granite Speech 5.0 470M TurboCTC, built for high-throughput batch transcription, now supports seven languages: English, French, German, Spanish, Portuguese, Italian, and Japanese. It also adds native punctuation and capitalization, and improves English accuracy. A variant under a non-commercial license is also available.
+
+[Granite Speech 5.0 470M TurboCTC](https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc) · [Non-commercial variant](https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc-nc)
+
+### Granite Speech 5.0 2B
+
+**October 20, 2026 · Speech**
+
+Granite Speech 5.0 2B is a compact speech-language model for multilingual speech recognition and bidirectional speech translation in English, French, German, Spanish, Portuguese, and Japanese. Compared to Granite Speech 4.1 2B, it has the same parameter count, with higher English transcription accuracy and better robustness to noise, reverberation, and distant microphones.
+
+[Granite Speech 5.0 2B](https://huggingface.co/ibm-granite/granite-speech-5.0-2b) · [Granite Speech collection](https://huggingface.co/collections/ibm-granite/granite-speech-67e45da088d5092ff6b901c7)
+
+### Granite Switch 4.1
+
+**October 14, 2026 · Switch**
+
+Granite Switch is a new family of modular models. Each Switch model combines a Granite 4.1 language model, task-specific adapters, and a speech encoder in one checkpoint, so a single endpoint can serve chat, decisions, safety checks, and speech-to-text. Adapters are selected per request. See [Adapters and composition](./concepts/adapters-and-composition.mdx).
+
+[Granite Switch collection](https://huggingface.co/collections/ibm-granite/granite-switch-6ad0cfd3d7f320024e5db03b)
+
+## August 2026
+
+### Granite 4.2 language models
+
+**August 25, 2026 · Language**
+
+Granite 4.2 adds built-in reasoning to the language models, in 3B, 8B, and 30B sizes. The models reason step by step inside `<think>…</think>` before answering, which improves math, coding, multi-step logic, and tool calling. You can switch between full thinking, non-thinking, and low-effort modes for each request. Each model is also published in GGUF, fp8, mxfp4, nvfp4, and MLX formats.
+
+[Granite 4.2 collection](https://huggingface.co/collections/ibm-granite/granite-42-language-models-6a7a0cded99d842065795d34) · [Get started with Granite 4.2 3B](./get-started.mdx#quickstart)
+
+## April 2026
+
+### Granite 4.1 release
+
+**April 29, 2026 · Language, Vision, Embedding**
+
+The Granite 4.1 release introduced new language models in 3B, 8B, and 30B sizes, Granite Vision 4.1 4B for document and image understanding, and the multilingual R2 embedding models in 97M and 311M sizes.
+
+[Granite 4.1 collection](https://huggingface.co/collections/ibm-granite/granite-41-language-models-69d3b30986f23ed3d8597ff3) · [Granite Vision 4.1 4B](https://huggingface.co/ibm-granite/granite-vision-4.1-4b) · [Granite Embedding collection](https://huggingface.co/collections/ibm-granite/granite-embedding-6750b30c802c1926a35550bb) · [Announcement](https://huggingface.co/blog/ibm-granite/granite-4-1)
+
+### Granite Guardian 4.1
+
+**April 2026 · Guardian**
+
+Granite Guardian 4.1 8B detects risks in prompts, responses, and agentic workflows, including harmful content, hallucinations, and jailbreak attempts. Use it alongside a language model as a guardrail. See [Safety and security](./trust/safety-and-security.mdx).
+
+[Granite Guardian 4.1 8B](https://huggingface.co/ibm-granite/granite-guardian-4.1-8b) · [Granite Guardian collection](https://huggingface.co/collections/ibm-granite/granite-guardian-66db06b1202a56cf7b079562)
+
+## Older releases
+
+For models from earlier releases, see [Versions and older releases](./concepts/naming-and-versions.mdx#versions-and-older-releases).

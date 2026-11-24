@@ -1,0 +1,76 @@
+{
+  "$comment": [
+    "Docs-only data. Hand-maintained in this repo; never synced from model-selector.",
+    "data/models.json and data/model-sources.json are upstream copies (npm run models:sync) and must not be edited here.",
+    "",
+    "families.<id>.collection  Hugging Face collection for the family, keyed by models.json families[].id.",
+    "                          Collection slugs were read from https://huggingface.co/api/collections?owner=ibm-granite on 2026-11-20.",
+    "modelSelectorUrl          The model selector has no deep links, so only one top-level URL is needed.",
+    "signing.<model id>       Signature method of the model's main Hugging Face repo: \"sigstore\", \"certificate\", \"mixed\"",
+    "                          (some files or adapters use each; explained on the page), or null when no model.sig is published.",
+    "                          Read from each repo's model.sig on 2026-11-23: certificate bundles contain x509CertificateChain.",
+    "                          Variant repos (-GGUF, -fp8, ...) are signed independently and are not covered here."
+  ],
+  "modelSelectorUrl": null,
+  "families": {
+    "language": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-42-language-models-6a7a0cded99d842065795d34"
+    },
+    "switch": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-switch-6ad0cfd3d7f320024e5db03b"
+    },
+    "vision": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-vision-67b3bd4ff90c915ba4cd2800"
+    },
+    "speech": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-speech-67e45da088d5092ff6b901c7"
+    },
+    "embedding": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-embedding-6750b30c802c1926a35550bb"
+    },
+    "guardian": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-guardian-66db06b1202a56cf7b079562"
+    },
+    "docling": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-docling-682b8c766a565487bcb3ca00"
+    },
+    "timeseries": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-time-series-663a90c6a2da73482bce3dc6"
+    },
+    "libraries": {
+      "collection": "https://huggingface.co/collections/ibm-granite/granite-libraries-69b821e3012570d46782f162"
+    }
+  },
+  "signing": {
+    "granite-speech-5.0-470m-turboctc": "certificate",
+    "granite-speech-5.0-470m-turboctc-nc": "sigstore",
+    "granite-4.2-3b": "sigstore",
+    "granite-4.2-8b": "sigstore",
+    "granite-4.2-30b": "sigstore",
+    "granite-4.1-3b": "sigstore",
+    "granite-4.1-8b": "sigstore",
+    "granite-4.1-30b": "sigstore",
+    "granite-switch-4.1-8b": null,
+    "granite-switch-4.1-30b": null,
+    "granite-vision-4.1-4b": "sigstore",
+    "granite-speech-5.0-2b": "certificate",
+    "granite-speech-4.1-2b": "sigstore",
+    "granite-speech-4.1-2b-plus": "certificate",
+    "granite-speech-4.1-2b-nar": "sigstore",
+    "granite-embedding-97m-multilingual-r2": "sigstore",
+    "granite-embedding-311m-multilingual-r2": "sigstore",
+    "granite-embedding-english-r2": null,
+    "granite-embedding-small-english-r2": null,
+    "granite-embedding-reranker-english-r2": null,
+    "granite-guardian-4.1-8b": "sigstore",
+    "granite-docling-258M": null,
+    "granite-timeseries-ttm-r3": "sigstore",
+    "granite-timeseries-tspulse-r1": null,
+    "granite-timeseries-flowstate-r1": "sigstore",
+    "granite-timeseries-patchtst-fm-r2": "certificate",
+    "granite-timeseries-patchtst-fm-r1": null,
+    "granitelib-core-r1.0": "mixed",
+    "granitelib-rag-r1.0": "sigstore",
+    "granitelib-guardian-r1.0": "sigstore"
+  }
+}

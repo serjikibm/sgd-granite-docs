@@ -1,0 +1,14 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Same page margins as the landing page: 40px sides, 1584px max. */
+.main {
+  width: 100%;
+  max-width: 99rem;
+  margin: 0 auto;
+  padding: 4rem 2.5rem 6rem;
+}
+
+@media (max-width: 996px) {
+  .main {
+    padding: 2rem 1rem 4rem;
+  }
+}

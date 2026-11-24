@@ -1,0 +1,37 @@
+# Blog tags. Tags are free-form and not tied to a category: add new ones here
+# as needed (the build warns about tags used in posts but missing here).
+# Each tag gets a page at /blog/tags/<key>.
+
+# Models
+language:
+  label: Language
+vision:
+  label: Vision
+speech:
+  label: Speech
+switch:
+  label: Switch
+llmon:
+  label: LLMON
+
+# Tools
+granite-build:
+  label: Granite.build
+granite-mem:
+  label: Granite.mem
+granite-loop:
+  label: Granite.loop
+alchemy:
+  label: Alchemy
+prompt2program:
+  label: Prompt2Program
+
+# Community
+news:
+  label: News
+updates:
+  label: Updates
+events:
+  label: Events
+conferences:
+  label: Conferences

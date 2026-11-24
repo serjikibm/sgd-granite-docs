@@ -1,0 +1,386 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/**
+ * Landing page (Figma: IBM Granite Docs - Landing page, node 140:8631).
+ */
+
+.landing {
+  position: relative;
+  padding: 9.25rem 2.5rem 6rem; /* 148px below the header, 40px sides, 96px above the footer */
+}
+
+/* Animated honeycomb: flush with the header and the right edge, behind the hero text */
+.honeycomb {
+  top: 0;
+  right: 0;
+}
+
+.hero,
+.cards,
+.divider,
+.whatsNew {
+  position: relative;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  margin-bottom: 1rem;
+}
+
+.heroTitle {
+  margin: 0 0 1.5rem;
+  font-size: 4.75rem; /* 76px */
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--ifm-heading-color);
+}
+
+.heroTitle strong {
+  font-weight: 600;
+}
+
+.heroSubtitle {
+  max-width: 44.3125rem; /* 709px: wraps after "of the" */
+  margin: 0 0 1.75rem; /* 104px text box + 24px */
+  font-size: 2.625rem; /* heading-06, 42px */
+  line-height: 3.125rem;
+  color: var(--carbon-text-secondary);
+}
+
+.heroLead {
+  margin: 0;
+  font-size: 1.75rem; /* heading-04 */
+  line-height: 2.25rem;
+  color: var(--carbon-text-secondary);
+}
+
+/* ---------- Cards ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4 × 352px at 1584px */
+  gap: 2rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLink {
+  display: block;
+  color: inherit;
+}
+
+.cardLink:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/*
+ * Card hover, from the Granite Playground demo cards: hovering the image, the
+ * title or the Explore button zooms and hue-shifts the illustration (see
+ * LandingIllustration). The title itself stays as is. Keyboard focus on
+ * either link does the same. Hover is limited to fine
+ * pointers so it doesn't stick on touch screens.
+ */
+@media (hover: hover) and (pointer: fine) {
+  .card:has(.cardMedia:hover, .cardTitle:hover, .explore:hover) {
+    --illustration-active: 1;
+  }
+}
+
+.card:has(.cardLink:focus-visible, .explore:focus-visible) {
+  --illustration-active: 1;
+}
+
+@media (forced-colors: active) {
+  .cardMedia,
+  .explore {
+    border: 1px solid CanvasText;
+  }
+}
+
+.cardTitle {
+  margin: 1.5rem 0 0;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2.25rem;
+  letter-spacing: -0.28px;
+  color: var(--ifm-heading-color);
+}
+
+.cardDescription {
+  margin: 0;
+  padding-top: 1rem; /* 8px gap + 8px padding */
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--carbon-text-secondary);
+}
+
+/* Tags, then the Explore button pinned to the bottom so buttons line up across the row */
+.cardFooter {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.375rem;
+  padding-top: 1.25rem; /* 4px below the 608px link block + 16px padding */
+}
+
+.cardFooter .explore {
+  margin-top: auto;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tag,
+.grayTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 1.5rem;
+  max-width: 13rem;
+  margin: 0;
+  padding: 0 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.32px;
+  white-space: nowrap;
+}
+
+.tag {
+  border-radius: 1rem;
+  background-color: #a7f0ba; /* tag green background */
+  color: #0e6027; /* tag green text */
+}
+
+.grayTag {
+  border-radius: 0.75rem;
+  background-color: #dde1e6; /* cool gray 20 */
+  color: #161616;
+}
+
+/* Carbon primary button, black variant, with trailing icon */
+.explore {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 3rem;
+  padding: 0.875rem 1rem 0.875rem 0.9375rem;
+  border: 1px solid #000000;
+  background-color: #000000;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  letter-spacing: 0.16px;
+  color: #ffffff;
+}
+
+.explore:hover {
+  border-color: #262626;
+  background-color: #262626;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.explore img {
+  display: block;
+}
+
+[data-theme='dark'] .explore {
+  border-color: #ffffff;
+  background-color: #ffffff;
+  color: #161616;
+}
+
+[data-theme='dark'] .explore img {
+  filter: invert(1);
+}
+
+/* ---------- Explore what's new ---------- */
+
+.divider {
+  margin: 4rem 0 6rem; /* 64px below the cards, 96px above the heading */
+  border: 0;
+  border-top: 1px solid #c6c6c6; /* border-strong */
+  background: none;
+}
+
+.sectionTitle {
+  margin: 0 0 3rem;
+  font-size: 2.625rem;
+  font-weight: 400;
+  line-height: 3.125rem;
+  color: #121619; /* cool gray 100 */
+}
+
+.group + .group {
+  margin-top: 5rem; /* 80px between the two rows */
+}
+
+.columnTitle {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 2.25rem;
+  color: #121619;
+}
+
+/* Illustration panel and list side by side, 736px each at 1584px */
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.0625rem; /* 17px */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Outlined cards, 130px tall with a 17px gap (Figma node 142:9778) */
+.list li {
+  margin: 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 8.125rem; /* 130px */
+  padding: 0.875rem 1.0625rem; /* 1px inner padding + 16px; icon 15px from the top edge */
+  border: 1px solid #c6c6c6; /* gray 30 */
+  background-color: #ffffff;
+  color: #121619;
+  transition: background-color 70ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.item:hover {
+  background-color: #f2f4f8;
+  color: #121619;
+  text-decoration: none;
+}
+
+.item img {
+  display: block;
+}
+
+.itemTitle {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.itemTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+.itemSummary {
+  overflow: hidden;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  letter-spacing: 0.16px;
+  color: #4d5358; /* cool gray 70 */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-theme='dark'] .sectionTitle,
+[data-theme='dark'] .columnTitle,
+[data-theme='dark'] .item,
+[data-theme='dark'] .item:hover {
+  color: var(--ifm-heading-color);
+}
+
+[data-theme='dark'] .item {
+  border-color: var(--carbon-border-subtle);
+  background-color: var(--ifm-background-color);
+}
+
+[data-theme='dark'] .item:hover {
+  background-color: var(--carbon-layer);
+}
+
+[data-theme='dark'] .itemSummary {
+  color: var(--carbon-text-secondary);
+}
+
+[data-theme='dark'] .item img {
+  filter: invert(1);
+}
+
+[data-theme='dark'] .divider {
+  border-color: var(--carbon-border-subtle);
+}
+
+/* ---------- Responsive ---------- */
+
+@media screen and (max-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 4rem;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .honeycomb {
+    display: none;
+  }
+
+  .landing {
+    padding: 4rem 1rem 4rem;
+  }
+
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .heroSubtitle,
+  .sectionTitle {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+
+  .heroLead {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .divider {
+    margin: 4rem 0 2.5rem;
+  }
+
+  .sectionTitle {
+    margin-bottom: 2rem;
+  }
+
+  .group + .group {
+    margin-top: 4rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "$comment": [
+    "Human-maintained build inputs for scripts/build-resources.mjs.",
+    "Maps catalog id (data/models.json models[].id) -> Hugging Face repo, plus overrides.",
+    "Generated output lives in data/model-resources.json and is owned entirely by the CLI.",
+    "See docs/plans/resource-constraints-pipeline.md (Phase 1) and docs/specs/resource-constraints.md.",
+    "",
+    "Every `hf` and `quantRepos` value below was probed against the Hub on 2026-08-28;",
+    "quantRepos were confirmed against the full ibm-granite repo listing rather than",
+    "assumed from a <repo>-GGUF naming rule, so an absent entry means no quant repo ships.",
+    "",
+    "The 4.2 series ships three non-GGUF first-party quantizations (-fp8, -mxfp4, -nvfp4)",
+    "in addition to -GGUF. Each holds a single model.safetensors, so the CLI must derive",
+    "the variant label from the repo suffix rather than the filename, and the GGUF-shaped",
+    "`recommended`/`aggressive` label rules do not apply to them.",
+    "The three 4.2 models have no editorial entry in models.json yet — the CLI's",
+    "discrepancy report will flag them until one is added by hand.",
+    "",
+    "`companionRepos` lists checkpoints a composite model loads alongside its own",
+    "weights at runtime, which are therefore resident for every variant. The Granite",
+    "Switch models embed their adapters in the checkpoint (already measured), but pull",
+    "the speech encoder from its own repo when `asr_enabled` is set. Companion bytes",
+    "are added to every variant, full precision and quantized alike.",
+    "See docs/plans/switch-addition-plan.md (section 2.3).",
+    "The Switch `-preview` repos are deliberately not listed yet (plan section 7)."
+  ],
+  "models": [
+    {
+      "id": "granite-4.2-3b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.2-3b",
+      "quantRepos": [
+        "ibm-granite/granite-4.2-3b-GGUF",
+        "ibm-granite/granite-4.2-3b-fp8",
+        "ibm-granite/granite-4.2-3b-mxfp4",
+        "ibm-granite/granite-4.2-3b-nvfp4"
+      ]
+    },
+    {
+      "id": "granite-4.2-8b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.2-8b",
+      "quantRepos": [
+        "ibm-granite/granite-4.2-8b-GGUF",
+        "ibm-granite/granite-4.2-8b-fp8",
+        "ibm-granite/granite-4.2-8b-mxfp4",
+        "ibm-granite/granite-4.2-8b-nvfp4"
+      ]
+    },
+    {
+      "id": "granite-4.2-30b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.2-30b",
+      "quantRepos": [
+        "ibm-granite/granite-4.2-30b-GGUF",
+        "ibm-granite/granite-4.2-30b-fp8",
+        "ibm-granite/granite-4.2-30b-mxfp4",
+        "ibm-granite/granite-4.2-30b-nvfp4"
+      ]
+    },
+    {
+      "id": "granite-4.1-3b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.1-3b",
+      "quantRepos": ["ibm-granite/granite-4.1-3b-GGUF"]
+    },
+    {
+      "id": "granite-4.1-8b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.1-8b",
+      "quantRepos": ["ibm-granite/granite-4.1-8b-GGUF"]
+    },
+    {
+      "id": "granite-4.1-30b",
+      "hf": "https://huggingface.co/ibm-granite/granite-4.1-30b",
+      "quantRepos": ["ibm-granite/granite-4.1-30b-GGUF"]
+    },
+    {
+      "id": "granite-switch-4.1-8b",
+      "hf": "https://huggingface.co/ibm-granite/granite-switch-4.1-8b",
+      "quantRepos": ["ibm-granite/granite-switch-4.1-8b-GGUF"],
+      "companionRepos": ["ibm-granite/granite-speech-5.0-470m-turboctc"],
+      "note": "Composite: base + embedded aLoRAs are measured in the checkpoint; the ASR encoder is loaded at runtime from its own repo (asr_enabled, asr_model_id null → TurboCTC default)."
+    },
+    {
+      "id": "granite-switch-4.1-30b",
+      "hf": "https://huggingface.co/ibm-granite/granite-switch-4.1-30b",
+      "quantRepos": ["ibm-granite/granite-switch-4.1-30b-GGUF"],
+      "companionRepos": ["ibm-granite/granite-speech-5.0-470m-turboctc"],
+      "note": "Composite: see granite-switch-4.1-8b."
+    },
+    {
+      "id": "granite-vision-4.1-4b",
+      "hf": "https://huggingface.co/ibm-granite/granite-vision-4.1-4b",
+      "quantRepos": ["ibm-granite/granite-vision-4.1-4b-GGUF"]
+    },
+    {
+      "id": "granite-speech-5.0-2b",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-5.0-2b",
+      "quantRepos": ["ibm-granite/granite-speech-5.0-2b-GGUF"]
+    },
+    {
+      "id": "granite-speech-4.1-2b",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-4.1-2b",
+      "quantRepos": ["ibm-granite/granite-speech-4.1-2b-GGUF"]
+    },
+    {
+      "id": "granite-speech-4.1-2b-plus",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-4.1-2b-plus",
+      "quantRepos": ["ibm-granite/granite-speech-4.1-2b-plus-GGUF"]
+    },
+    {
+      "id": "granite-speech-4.1-2b-nar",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-4.1-2b-nar",
+      "quantRepos": [],
+      "note": "No -GGUF sibling ships for the NAR variant (probed 401; absent from the ibm-granite repo listing)."
+    },
+    {
+      "id": "granite-speech-5.0-470m-turboctc",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc",
+      "quantRepos": [],
+      "note": "No -GGUF sibling."
+    },
+    {
+      "id": "granite-speech-5.0-470m-turboctc-nc",
+      "hf": "https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc-nc",
+      "quantRepos": [],
+      "note": "No -GGUF sibling."
+    },
+    {
+      "id": "granite-embedding-97m-multilingual-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-embedding-97m-multilingual-r2",
+      "quantRepos": []
+    },
+    {
+      "id": "granite-embedding-311m-multilingual-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-embedding-311m-multilingual-r2",
+      "quantRepos": []
+    },
+    {
+      "id": "granite-embedding-english-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-embedding-english-r2",
+      "quantRepos": []
+    },
+    {
+      "id": "granite-embedding-small-english-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-embedding-small-english-r2",
+      "quantRepos": [],
+      "note": "Catalog id has the word order reversed: catalog `english-small`, Hub `small-english`. The only catalog id that hard-404s against ibm-granite/${id}."
+    },
+    {
+      "id": "granite-embedding-reranker-english-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-embedding-reranker-english-r2",
+      "quantRepos": []
+    },
+    {
+      "id": "granite-guardian-4.1-8b",
+      "hf": "https://huggingface.co/ibm-granite/granite-guardian-4.1-8b",
+      "quantRepos": ["ibm-granite/granite-guardian-4.1-8b-GGUF"]
+    },
+    {
+      "id": "granite-docling-258M",
+      "hf": "https://huggingface.co/ibm-granite/granite-docling-258M",
+      "quantRepos": ["ibm-granite/granite-docling-258M-GGUF", "ibm-granite/granite-docling-258M-mlx"],
+      "note": "Hub repo is case-sensitive `258M`; the lowercase catalog id 307-redirects rather than 404ing."
+    },
+    {
+      "id": "granite-timeseries-ttm-r3",
+      "hf": "https://huggingface.co/ibm-granite/granite-timeseries-ttm-r3",
+      "quantRepos": [],
+      "note": "Hub prefixes time-series repos with `granite-timeseries-`."
+    },
+    {
+      "id": "granite-timeseries-tspulse-r1",
+      "hf": "https://huggingface.co/ibm-granite/granite-timeseries-tspulse-r1",
+      "quantRepos": [],
+      "note": "Hub prefixes time-series repos with `granite-timeseries-`."
+    },
+    {
+      "id": "granite-timeseries-flowstate-r1",
+      "hf": "https://huggingface.co/ibm-granite/granite-timeseries-flowstate-r1",
+      "quantRepos": [],
+      "note": "Hub prefixes time-series repos with `granite-timeseries-`."
+    },
+    {
+      "id": "granite-timeseries-patchtst-fm-r1",
+      "hf": "https://huggingface.co/ibm-granite/granite-timeseries-patchtst-fm-r1",
+      "quantRepos": [],
+      "note": "Hub prefixes time-series repos with `granite-timeseries-`."
+    },
+    {
+      "id": "granite-timeseries-patchtst-fm-r2",
+      "hf": "https://huggingface.co/ibm-granite/granite-timeseries-patchtst-fm-r2",
+      "quantRepos": [],
+      "note": "Hub prefixes time-series repos with `granite-timeseries-`."
+    },
+    {
+      "id": "granitelib-core-r1.0",
+      "hf": "https://huggingface.co/ibm-granite/granitelib-core-r1.0",
+      "resourcesApplicable": false,
+      "note": "Software library, not a checkpoint — no weights to size (spec D5)."
+    },
+    {
+      "id": "granitelib-rag-r1.0",
+      "hf": "https://huggingface.co/ibm-granite/granitelib-rag-r1.0",
+      "resourcesApplicable": false,
+      "note": "Software library, not a checkpoint — no weights to size (spec D5)."
+    },
+    {
+      "id": "granitelib-guardian-r1.0",
+      "hf": "https://huggingface.co/ibm-granite/granitelib-guardian-r1.0",
+      "resourcesApplicable": false,
+      "note": "Software library, not a checkpoint — no weights to size (spec D5)."
+    }
+  ]
+}

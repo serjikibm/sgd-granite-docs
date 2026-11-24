@@ -1,0 +1,71 @@
+---
+slug: granite-build
+title: 'Granite.build: one file from model download to evaluation'
+description: An open source build orchestrator for LLM pipelines. Describe the pipeline once in build.yaml and run it locally, on Kubernetes, or on cloud GPUs.
+category: tools
+authors: [granite-team]
+tags: [granite-build]
+---
+
+:::note[Draft content]
+This post is draft content for review. Facts are from the [Granite.build README](https://github.com/ibm-granite/granite.build). Granite.build is in alpha, and breaking changes may occur.
+:::
+
+Fine-tuning a model usually means a pile of scripts: one to download the base model and data, one to train, one to evaluate, and glue to move artifacts between them and between machines. Granite.build replaces the glue with a single pipeline definition.
+
+{/*truncate*/}
+
+## Describe the pipeline once
+
+A Granite.build pipeline lives in a `build.yaml` file. It declares which models to download, how to fine-tune them, and which evaluations to run, as named **targets** such as download, fine-tune, and evaluate. Targets are connected through **artifact bindings**: when a target produces an artifact, the targets that depend on it are dispatched automatically.
+
+Artifacts are addressed by URI, so the same pipeline can pull a model from Hugging Face with `hf://` and write results to local files, Git, or cloud object storage (`file://`, `git://`, `cos://`).
+
+## Run it anywhere
+
+Each step runs in the environment you choose, without changing the pipeline:
+
+| Environment | Status |
+| ----------- | ------ |
+| Docker and local Bash | Stable |
+| Kubernetes | Stable |
+| SLURM through SkyPilot | Beta |
+| RunPod and SkyPilot on AWS | Beta |
+
+The environments, credentials, artifact stores, and step implementations available to a build come from a **space**, so moving from a laptop to a GPU cluster is a configuration change.
+
+## The pieces
+
+- **gbserver**, the orchestration server, with a REST API and a web dashboard. It watches for pending builds and dispatches them.
+- **gb**, the command-line client, to submit builds, check status, read logs, and manage artifacts.
+- **Lineage tracking**, which records where every build, target, and artifact came from.
+- **Standalone mode**, which uses SQLite and threads, so you can try everything without any external services.
+
+## Built to work with coding agents
+
+Granite.build ships Agent Skills for coding agents such as Claude Code and OpenCode, so an agent can operate the tool without being taught each time. The `gbmcp` MCP server lets agents start the backend and run, monitor, and cancel builds. The dashboard also has a chat assistant that only proposes actions: nothing runs until you approve it.
+
+## Try it
+
+You need Python 3.11 or later, plus Node.js 20 or later and yarn for the dashboard. Start the server in standalone mode:
+
+```bash
+git clone https://github.com/ibm-granite/granite.build.git
+cd granite.build
+make venv PYTHON=python3.13
+source .venv/bin/activate
+make build-frontend
+gbserver standalone --space-dir configurations/spaces/local
+```
+
+Then, in a second terminal, submit the quickstart build. It runs a single step in a local Bash process, so no Docker is needed:
+
+```bash
+cd granite.build
+source .venv/bin/activate
+export GB_ENVIRONMENT=STANDALONE
+gb build start -f samples/standalone/standalone-quickstart/build.yaml
+gb build status <build-id>
+```
+
+The dashboard is at `http://localhost:8080`. For everything else, see the [Granite.build repository](https://github.com/ibm-granite/granite.build), which is open source under the Apache 2.0 license.

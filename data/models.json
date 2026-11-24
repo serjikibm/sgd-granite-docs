@@ -1,0 +1,1746 @@
+{
+  "capabilities": [
+    "Document Summarization",
+    "Multilingual Generation",
+    "Instruction Following",
+    "Tool-calling",
+    "Agentic Workflows",
+    "Chart Extraction",
+    "Table Extraction",
+    "KVP Extraction",
+    "Retrieval",
+    "Multilingual Retrieval",
+    "Code Retrieval",
+    "Reranking",
+    "Transcription (ASR)",
+    "Automatic Speech Translation (AST)",
+    "Speaker Diarization",
+    "Word-level Timestamps",
+    "Harm Detection",
+    "Hallucination Detection (HD)",
+    "Custom Risk/Policy Criteria (BYOC)",
+    "Factuality Detection",
+    "Factuality Correction",
+    "Policy Guardrails",
+    "Context Attribution",
+    "Requirement Check",
+    "Uncertainty Quantification",
+    "Decision Scoring",
+    "Query Rewrite (QR)",
+    "Query Clarification (QC)",
+    "Context Relevance (CR)",
+    "Answerability Determination (AD)",
+    "Citation Generation (CG)",
+    "Document Conversion",
+    "OCR",
+    "Table Structure Recognition",
+    "Formula Recognition",
+    "Code Block Recognition",
+    "Chart-to-Table Conversion",
+    "Point and probabilistic forecasting",
+    "Multivariate Data",
+    "Anomaly Detection",
+    "Imputation",
+    "Similarity Search",
+    "Classification",
+    "Coding",
+    "Math"
+  ],
+  "families": [
+    {
+      "id": "language",
+      "name": "Language",
+      "description": "General purpose instruction-following, text-generation, tool-calling, and agentic capabilities.",
+      "keyStrengths": [
+        "Multilingual",
+        "Long context (128K tokens)",
+        "Fast tool-calling",
+        "RAG-ready",
+        "Coding",
+        "Math"
+      ],
+      "topUseCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Agentic workflows",
+        "Code generation",
+        "Summarization"
+      ]
+    },
+    {
+      "id": "switch",
+      "name": "Switch",
+      "description": "Modular LLMs that compose a Granite base model, embedded LoRA adapters, and a speech encoder into one checkpoint, so a single endpoint serves chat, decisions, safety checks, and speech-to-text.",
+      "keyStrengths": [
+        "One endpoint, many capabilities",
+        "Adapters switched per request",
+        "Embedded speech-to-text",
+        "Smaller footprint than separate models",
+        "Composable — build your own"
+      ],
+      "topUseCases": [
+        "Chat + guardrails on one GPU",
+        "Speech-to-decision pipelines",
+        "Classification over labelled options"
+      ]
+    },
+    {
+      "id": "vision",
+      "name": "Vision",
+      "description": "Understanding images and documents.",
+      "keyStrengths": [
+        "Document intelligence",
+        "Chart/table parsing",
+        "Image-to-text",
+        "Multimodal RAG"
+      ],
+      "topUseCases": [
+        "Document Q&A",
+        "Chart understanding",
+        "Image analysis",
+        "Visual RAG"
+      ]
+    },
+    {
+      "id": "speech",
+      "name": "Speech",
+      "description": "Speech recognition, bidirectional speech translation, enterprise transcription.",
+      "keyStrengths": [
+        "High-accuracy ASR",
+        "Multilingual",
+        "Keyword biasing",
+        "Punctuation/casing",
+        "Compact footprint"
+      ],
+      "topUseCases": ["Speech-to-text", "Transcription", "Speech translation"]
+    },
+    {
+      "id": "embedding",
+      "name": "Embedding",
+      "description": "Semantic search, retrieval, and RAG pipelines.",
+      "keyStrengths": [
+        "Semantic similarity",
+        "RAG retrieval",
+        "Dense vector search",
+        "Reranking"
+      ],
+      "topUseCases": [
+        "RAG pipelines",
+        "Semantic search",
+        "Document retrieval",
+        "Reranking"
+      ]
+    },
+    {
+      "id": "guardian",
+      "name": "Guardian",
+      "description": "Safety and risk-detection models for identifying harmful content, hallucinations, toxicity, and policy violations in LLM inputs and outputs.",
+      "keyStrengths": [
+        "Harm detection",
+        "Hallucination flagging",
+        "Factuality checking",
+        "Prompt risk assessment"
+      ],
+      "topUseCases": [
+        "Content moderation",
+        "AI safety layer",
+        "Hallucination detection"
+      ]
+    },
+    {
+      "id": "docling",
+      "name": "Docling",
+      "description": "Specialist document-parsing model for converting complex PDFs and structured documents into machine-readable formats.",
+      "keyStrengths": [
+        "PDF conversion",
+        "Layout understanding",
+        "Table extraction",
+        "Structured output"
+      ],
+      "topUseCases": [
+        "PDF-to-structured data",
+        "Document digitization",
+        "Enterprise doc workflows"
+      ]
+    },
+    {
+      "id": "timeseries",
+      "name": "Time Series",
+      "description": "Forecasting, anomaly detection, and classification of enterprise time series data.",
+      "keyStrengths": [
+        "Zero/few-shot forecasting",
+        "Fast inference",
+        "Multivariate support",
+        "Small model size"
+      ],
+      "topUseCases": [
+        "Demand forecasting",
+        "Anomaly detection",
+        "Capacity planning",
+        "Financial prediction"
+      ]
+    },
+    {
+      "id": "libraries",
+      "name": "Libraries",
+      "description": "Collections of task-specific LoRA adapters (RAG, Guardian, core capabilities) that extend and customize Granite base models without full retraining.",
+      "keyStrengths": [
+        "Modular customization",
+        "Low-overhead",
+        "Composable with base models"
+      ],
+      "topUseCases": [
+        "RAG enhancement",
+        "Safety layer add-on",
+        "Custom capability tuning"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "granite-speech-5.0-470m-turboctc",
+      "name": "Granite-Speech-5.0-470M-TurboCTC",
+      "familyId": "speech",
+      "parameters": "470M",
+      "contextWindow": null,
+      "useCases": [
+        "Batch transcription",
+        "High-throughput pipelines",
+        "Multilingual transcription",
+        "Noisy and far-field audio"
+      ],
+      "capabilities": ["Transcription (ASR)"],
+      "whenToChoose": "Maximum throughput batch transcription (~20,000x faster than real time) across 7 languages, with native punctuation and capitalization and improved robustness to noisy and far-field speech.",
+      "tags": ["batch", "throughput", "fast", "multilingual"],
+      "wizardMatches": {
+        "specializedTasks": ["batch-throughput"],
+        "factorTags": [
+          "high-throughput",
+          "latency-batch",
+          "cost-effective",
+          "edge"
+        ]
+      },
+      "license": "Apache 2.0",
+      "providers": []
+    },
+    {
+      "id": "granite-speech-5.0-470m-turboctc-nc",
+      "name": "Granite-Speech-5.0-470M-TurboCTC NC",
+      "familyId": "speech",
+      "parameters": "470M",
+      "contextWindow": null,
+      "useCases": [
+        "Batch transcription",
+        "High-throughput pipelines",
+        "Noncommercial use only"
+      ],
+      "capabilities": ["Transcription (ASR)"],
+      "whenToChoose": "Maximum throughput batch transcription where speed is the priority; trades some accuracy for faster non-autoregressive decoding.",
+      "tags": ["batch", "throughput", "fast"],
+      "wizardMatches": {
+        "specializedTasks": ["batch-throughput"],
+        "factorTags": [
+          "high-throughput",
+          "latency-batch",
+          "cost-effective",
+          "edge"
+        ]
+      },
+      "license": "CC-BY-NC-SA-4.0",
+      "providers": []
+    },
+    {
+      "id": "granite-4.2-3b",
+      "name": "Granite 4.2 3B",
+      "familyId": "language",
+      "parameters": "3B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling",
+        "Agentic Workflows",
+        "Coding",
+        "Math"
+      ],
+      "whenToChoose": "Tasks requiring deeper reasoning or multi-step agentic chains where output quality is the top priority and compute is available.",
+      "tags": ["high-quality", "reasoning", "agentic"],
+      "wizardMatches": {
+        "factorTags": [
+          "max-quality",
+          "deep-reasoning",
+          "agentic",
+          "multilingual",
+          "long-context",
+          "cloud"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 80.16,
+        "gsm8k": 94.16,
+        "humanEval": 88.41,
+        "mbpp": 85.45,
+        "alpacaEval": 56.16,
+        "arenaHard": 71.02,
+        "bfcl": 73.68
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+    {
+      "id": "granite-4.2-8b",
+      "name": "Granite 4.2 8B",
+      "familyId": "language",
+      "parameters": "8B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling",
+        "Agentic Workflows",
+        "Coding",
+        "Math"
+      ],
+      "whenToChoose": "Tasks requiring deeper reasoning or multi-step agentic chains where output quality is the top priority and compute is available.",
+      "tags": ["high-quality", "reasoning", "agentic"],
+      "wizardMatches": {
+        "factorTags": [
+          "max-quality",
+          "deep-reasoning",
+          "agentic",
+          "multilingual",
+          "long-context",
+          "cloud"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 80.16,
+        "gsm8k": 94.16,
+        "humanEval": 88.41,
+        "mbpp": 85.45,
+        "alpacaEval": 56.16,
+        "arenaHard": 71.02,
+        "bfcl": 73.68
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+    {
+      "id": "granite-4.2-30b",
+      "name": "Granite 4.2 30B",
+      "familyId": "language",
+      "parameters": "30B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling",
+        "Agentic Workflows",
+        "Coding",
+        "Math"
+      ],
+      "whenToChoose": "Tasks requiring deeper reasoning or multi-step agentic chains where output quality is the top priority and compute is available.",
+      "tags": ["high-quality", "reasoning", "agentic"],
+      "wizardMatches": {
+        "factorTags": [
+          "max-quality",
+          "deep-reasoning",
+          "agentic",
+          "multilingual",
+          "long-context",
+          "cloud"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 80.16,
+        "gsm8k": 94.16,
+        "humanEval": 88.41,
+        "mbpp": 85.45,
+        "alpacaEval": 56.16,
+        "arenaHard": 71.02,
+        "bfcl": 73.68
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+
+    {
+      "id": "granite-4.1-3b",
+      "name": "Granite 4.1 3B",
+      "familyId": "language",
+      "parameters": "3B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling"
+      ],
+      "whenToChoose": "Resource-constrained environments; on-device or real-time inference; cost matters more than peak accuracy.",
+      "tags": ["lightweight", "edge", "cost-effective"],
+      "wizardMatches": {
+        "factorTags": [
+          "edge",
+          "cost-effective",
+          "agentic",
+          "multilingual",
+          "long-context"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 67.02,
+        "gsm8k": 86.88,
+        "humanEval": 81.71,
+        "mbpp": 71.16,
+        "alpacaEval": 38.57,
+        "arenaHard": 37.8,
+        "bfcl": 60.8
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+    {
+      "id": "granite-4.1-8b",
+      "name": "Granite 4.1 8B",
+      "familyId": "language",
+      "parameters": "8B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling",
+        "Agentic Workflows"
+      ],
+      "whenToChoose": "Best all-around choice for most production workloads — strong across coding, RAG, and instruction following without the resource cost of 30B.",
+      "tags": ["production", "general-purpose", "balanced"],
+      "wizardMatches": {
+        "factorTags": [
+          "balanced",
+          "cost-effective",
+          "multilingual",
+          "agentic",
+          "long-context",
+          "production-ready",
+          "on-prem"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 73.84,
+        "gsm8k": 92.49,
+        "humanEval": 85.37,
+        "mbpp": 87.3,
+        "alpacaEval": 50.08,
+        "arenaHard": 68.98,
+        "bfcl": 68.27
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+    {
+      "id": "granite-4.1-30b",
+      "name": "Granite 4.1 30B",
+      "familyId": "language",
+      "parameters": "30B",
+      "contextWindow": "128K",
+      "useCases": [
+        "AI assistants",
+        "RAG pipelines",
+        "Tool-calling",
+        "Agentic workflows",
+        "Coding",
+        "Multilingual generation",
+        "Structured JSON output"
+      ],
+      "capabilities": [
+        "Document Summarization",
+        "Multilingual Generation",
+        "Instruction Following",
+        "Tool-calling",
+        "Agentic Workflows",
+        "Coding",
+        "Math"
+      ],
+      "whenToChoose": "Tasks requiring deeper reasoning or multi-step agentic chains where output quality is the top priority and compute is available.",
+      "tags": ["high-quality", "reasoning", "agentic"],
+      "wizardMatches": {
+        "factorTags": [
+          "max-quality",
+          "deep-reasoning",
+          "agentic",
+          "multilingual",
+          "long-context",
+          "cloud"
+        ]
+      },
+      "license": "Apache 2.0",
+      "benchmarks": {
+        "mmlu": 80.16,
+        "gsm8k": 94.16,
+        "humanEval": 88.41,
+        "mbpp": 85.45,
+        "alpacaEval": 56.16,
+        "arenaHard": 71.02,
+        "bfcl": 73.68
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        },
+        { "name": "OpenRouter", "url": "https://openrouter.ai/ibm-granite" }
+      ]
+    },
+    {
+      "id": "granite-switch-4.1-8b",
+      "name": "Granite Switch 4.1 8B",
+      "familyId": "switch",
+      "parameters": "8B",
+      "contextWindow": "128K",
+      "useCases": [
+        "Chat with built-in safety checks",
+        "Speech-to-decision pipelines",
+        "Scoring against labelled options",
+        "Tool-calling",
+        "Single-endpoint deployments"
+      ],
+      "capabilities": [
+        "Instruction Following",
+        "Tool-calling",
+        "Harm Detection",
+        "Decision Scoring",
+        "Transcription (ASR)"
+      ],
+      "whenToChoose": "One endpoint for chat, safety checks, decisions, and English speech-to-text, at roughly half the GPU footprint of running Granite 4.1 8B, Guardian, and Speech side by side.",
+      "tags": ["composite", "single-endpoint", "speech", "safety"],
+      "wizardMatches": {},
+      "license": "Apache 2.0",
+      "composition": {
+        "base": "granite-4.1-8b",
+        "adapters": [
+          { "name": "guardian-core", "technology": "aLoRA", "source": "granitelib-guardian-r1.0" },
+          { "name": "decision", "technology": "aLoRA", "source": "granitelib-core-r1.0" }
+        ],
+        "encoders": ["granite-speech-5.0-470m-turboctc"]
+      },
+      "providers": []
+    },
+    {
+      "id": "granite-switch-4.1-30b",
+      "name": "Granite Switch 4.1 30B",
+      "familyId": "switch",
+      "parameters": "30B",
+      "contextWindow": "128K",
+      "useCases": [
+        "Chat with built-in safety checks",
+        "Speech-to-decision pipelines",
+        "Scoring against labelled options",
+        "Tool-calling",
+        "Single-endpoint deployments"
+      ],
+      "capabilities": [
+        "Instruction Following",
+        "Tool-calling",
+        "Harm Detection",
+        "Decision Scoring",
+        "Transcription (ASR)"
+      ],
+      "whenToChoose": "The same chat, safety, decision, and speech-to-text endpoint as Switch 8B, on the 30B base, for when answer and decision quality matter more than GPU cost.",
+      "tags": ["composite", "single-endpoint", "speech", "safety"],
+      "wizardMatches": {},
+      "license": "Apache 2.0",
+      "composition": {
+        "base": "granite-4.1-30b",
+        "adapters": [
+          { "name": "guardian-core", "technology": "aLoRA", "source": "granitelib-guardian-r1.0" },
+          { "name": "decision", "technology": "aLoRA", "source": "granitelib-core-r1.0" }
+        ],
+        "encoders": ["granite-speech-5.0-470m-turboctc"]
+      },
+      "providers": []
+    },
+    {
+      "id": "granite-vision-4.1-4b",
+      "name": "Granite Vision 4.1 4B",
+      "familyId": "vision",
+      "parameters": "4B",
+      "contextWindow": null,
+      "useCases": ["Document extraction tasks"],
+      "capabilities": [
+        "Chart Extraction",
+        "Table Extraction",
+        "KVP Extraction"
+      ],
+      "whenToChoose": "Latest and most capable vision model; preferred for all document and image understanding tasks.",
+      "tags": ["multimodal", "documents", "images"],
+      "wizardMatches": {
+        "factorTags": [
+          "balanced",
+          "max-quality",
+          "cost-effective",
+          "edge",
+          "full-doc-conversion",
+          "targeted-extraction"
+        ]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "Replicate",
+          "url": "https://replicate.com/collections/ibm-granite"
+        }
+      ]
+    },
+    {
+      "id": "granite-speech-5.0-2b",
+      "name": "Granite Speech 5.0 2B",
+      "familyId": "speech",
+      "parameters": "2B",
+      "contextWindow": null,
+      "useCases": [
+        "ASR and AST that may require punctuation & casing and/or keyword-list biasing",
+        "Noisy, reverberant, or distant-microphone audio",
+        "Long-form and conversational speech translation"
+      ],
+      "capabilities": [
+        "Transcription (ASR)",
+        "Automatic Speech Translation (AST)"
+      ],
+      "whenToChoose": "Latest and most accurate general-purpose speech model; preferred for new ASR and speech-translation deployments across EN, FR, DE, ES, PT, JA, especially with noisy audio or large keyword lists.",
+      "tags": ["asr", "multilingual", "high-quality"],
+      "wizardMatches": {
+        "specializedTasks": ["asr"],
+        "factorTags": ["multilingual", "balanced", "max-quality", "edge"]
+      },
+      "license": "Apache 2.0",
+      "providers": []
+    },
+    {
+      "id": "granite-speech-4.1-2b",
+      "name": "Granite Speech 4.1 2B",
+      "familyId": "speech",
+      "parameters": "2B",
+      "contextWindow": null,
+      "useCases": [
+        "ASR and AST that may require punctuation & casing and/or keyword-list biasing"
+      ],
+      "capabilities": [
+        "Transcription (ASR)",
+        "Automatic Speech Translation (AST)"
+      ],
+      "whenToChoose": "Previous-generation ASR and speech-translation model across EN, FR, DE, ES, PT, JA; choose Granite Speech 5.0 2B for new deployments.",
+      "tags": ["asr", "multilingual", "previous-gen"],
+      "wizardMatches": {
+        "specializedTasks": ["asr"],
+        "factorTags": ["multilingual", "balanced", "edge"]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        }
+      ]
+    },
+    {
+      "id": "granite-speech-4.1-2b-plus",
+      "name": "Granite Speech 4.1 2B Plus",
+      "familyId": "speech",
+      "parameters": "2B",
+      "contextWindow": null,
+      "useCases": ["Speaker diarization", "Word-level timestamps"],
+      "capabilities": [
+        "Transcription (ASR)",
+        "Automatic Speech Translation (AST)",
+        "Speaker Diarization",
+        "Word-level Timestamps"
+      ],
+      "whenToChoose": "When you need to identify who said what or require precise word-level timestamps for downstream processing; improved speaker attribution and word-level timing accuracy.",
+      "tags": ["diarization", "timestamps", "advanced"],
+      "wizardMatches": {
+        "specializedTasks": ["diarization"],
+        "factorTags": ["max-quality", "edge"]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        }
+      ]
+    },
+    {
+      "id": "granite-speech-4.1-2b-nar",
+      "name": "Granite Speech 4.1 2B NAR",
+      "familyId": "speech",
+      "parameters": "2B",
+      "contextWindow": null,
+      "useCases": ["Batch transcription", "High-throughput pipelines"],
+      "capabilities": ["Transcription (ASR)"],
+      "whenToChoose": "Maximum throughput batch transcription where speed is the priority; trades some accuracy for faster non-autoregressive decoding.",
+      "tags": ["batch", "throughput", "fast"],
+      "wizardMatches": {
+        "specializedTasks": ["batch-throughput"],
+        "factorTags": [
+          "high-throughput",
+          "latency-batch",
+          "cost-effective",
+          "edge"
+        ]
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        }
+      ]
+    },
+    {
+      "id": "granite-embedding-97m-multilingual-r2",
+      "name": "Granite Embedding 97M Multilingual R2",
+      "familyId": "embedding",
+      "parameters": "97M",
+      "contextWindow": "32K",
+      "useCases": ["Semantic Search", "RAG"],
+      "capabilities": ["Retrieval", "Multilingual Retrieval", "Code Retrieval"],
+      "whenToChoose": "Best sub-100M multilingual option with 32K context; ideal when speed and multi-language support are both required.",
+      "tags": ["multilingual", "lightweight", "fast"],
+      "wizardMatches": {
+        "specializedTasks": ["retrieval"],
+        "factorTags": [
+          "multilingual",
+          "cost-effective",
+          "edge",
+          "high-throughput",
+          "latency-interactive"
+        ]
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" }
+      ]
+    },
+    {
+      "id": "granite-embedding-311m-multilingual-r2",
+      "name": "Granite Embedding 311M Multilingual R2",
+      "familyId": "embedding",
+      "parameters": "311M",
+      "contextWindow": "32K",
+      "useCases": ["Semantic Search", "RAG"],
+      "capabilities": ["Retrieval", "Multilingual Retrieval", "Code Retrieval"],
+      "whenToChoose": "When retrieval quality matters more than speed; use over 97M for demanding multilingual pipelines.",
+      "tags": ["multilingual", "high-quality"],
+      "wizardMatches": {
+        "specializedTasks": ["retrieval"],
+        "factorTags": ["multilingual", "max-quality", "balanced", "on-prem"]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" }
+      ]
+    },
+    {
+      "id": "granite-embedding-english-r2",
+      "name": "Granite Embedding English R2",
+      "familyId": "embedding",
+      "parameters": "149M",
+      "contextWindow": "32K",
+      "useCases": ["Semantic Search", "RAG"],
+      "capabilities": ["Retrieval", "Code Retrieval"],
+      "whenToChoose": "English-only workloads where you want a lightweight, high-quality embedding model without multilingual overhead.",
+      "tags": ["english", "balanced"],
+      "wizardMatches": {
+        "specializedTasks": ["retrieval"],
+        "factorTags": ["balanced", "edge"]
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" }
+      ]
+    },
+    {
+      "id": "granite-embedding-small-english-r2",
+      "name": "Granite Embedding English Small R2",
+      "familyId": "embedding",
+      "parameters": "47M",
+      "contextWindow": "8K",
+      "useCases": ["Semantic Search", "RAG"],
+      "capabilities": ["Retrieval", "Code Retrieval"],
+      "whenToChoose": "Ultra-lightweight English embedding model with near-200 docs/sec throughput and 8192 context — the fastest option in the Embedding family; choose the 149M English R2 if you need higher accuracy.",
+      "tags": ["english", "ultra-light", "edge"],
+      "wizardMatches": {
+        "specializedTasks": ["retrieval"],
+        "factorTags": [
+          "cost-effective",
+          "edge",
+          "high-throughput",
+          "latency-interactive"
+        ]
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" }
+      ]
+    },
+    {
+      "id": "granite-embedding-reranker-english-r2",
+      "name": "Granite Embedding Reranker English R2",
+      "familyId": "embedding",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": ["Second-stage reranking", "Enterprise search"],
+      "capabilities": ["Reranking"],
+      "whenToChoose": "Use as a reranker after embedding retrieval when top-result precision is critical.",
+      "tags": ["reranker", "precision"],
+      "wizardMatches": {
+        "specializedTasks": ["reranking"],
+        "factorTags": ["max-quality", "reproducible", "reranker"]
+      },
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" }
+      ]
+    },
+    {
+      "id": "granite-guardian-4.1-8b",
+      "name": "Granite Guardian 4.1 8B",
+      "familyId": "guardian",
+      "parameters": "8B",
+      "contextWindow": null,
+      "useCases": ["Harm detection", "Hallucination flagging"],
+      "capabilities": ["Harm Detection", "Custom Risk/Policy Criteria (BYOC)"],
+      "whenToChoose": "Latest and most comprehensive; preferred for all new safety and compliance deployments.",
+      "tags": ["safety", "compliance", "production"],
+      "wizardMatches": {
+        "specializedTasks": [
+          "harm-detection",
+          "harm-categorization",
+          "factuality",
+          "byoc"
+        ],
+        "factorTags": [
+          "balanced",
+          "max-quality",
+          "cost-effective",
+          "production-ready",
+          "governance-certified",
+          "on-prem"
+        ]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        },
+        { "name": "Ollama", "url": "https://ollama.com/library/granite4" },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/models/ibm/granite-4"
+        }
+      ]
+    },
+    {
+      "id": "granite-docling-258M",
+      "name": "Granite Docling 258M",
+      "familyId": "docling",
+      "parameters": "258M",
+      "contextWindow": null,
+      "useCases": [
+        "Document conversion",
+        "PDF-to-structured data",
+        "Document digitization",
+        "Enterprise doc workflows"
+      ],
+      "capabilities": [
+        "Document Conversion",
+        "OCR",
+        "Table Structure Recognition",
+        "Formula Recognition",
+        "Code Block Recognition",
+        "Chart-to-Table Conversion"
+      ],
+      "whenToChoose": "Only model in the family; reliable document parsing with a tiny footprint.",
+      "tags": ["documents", "pdf", "lightweight"],
+      "wizardMatches": {
+        "factorTags": [
+          "balanced",
+          "cost-effective",
+          "edge",
+          "max-quality",
+          "full-doc-conversion",
+          "targeted-extraction"
+        ]
+      },
+      "license": "Apache 2.0",
+      "providers": [
+        {
+          "name": "watsonx.ai",
+          "url": "https://www.ibm.com/products/watsonx-ai"
+        }
+      ]
+    },
+    {
+      "id": "granite-timeseries-ttm-r3",
+      "name": "Granite TTM R3",
+      "familyId": "timeseries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Point and probabilistic forecasting",
+        "Streaming data",
+        "Multivariate data",
+        "Control variables"
+      ],
+      "capabilities": [
+        "Point and probabilistic forecasting",
+        "Multivariate Data"
+      ],
+      "whenToChoose": "Best starting point for most forecasting tasks — extremely low resource cost and strong zero-shot baseline.",
+      "tags": ["forecasting", "lightweight", "zero-shot"],
+      "wizardMatches": {
+        "specializedTasks": ["forecasting"],
+        "factorTags": ["balanced", "cost-effective", "edge", "multivariate"]
+      }
+    },
+    {
+      "id": "granite-timeseries-tspulse-r1",
+      "name": "Granite TSPulse R1",
+      "familyId": "timeseries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Anomaly detection",
+        "Imputation",
+        "Search",
+        "Classification"
+      ],
+      "capabilities": [
+        "Anomaly Detection",
+        "Imputation",
+        "Similarity Search",
+        "Classification"
+      ],
+      "whenToChoose": "When you need forecasting plus anomaly detection or classification in a single compact model.",
+      "tags": ["anomaly-detection", "classification", "multi-task"],
+      "wizardMatches": {
+        "specializedTasks": ["anomaly-detection"],
+        "factorTags": ["balanced", "imputation"]
+      }
+    },
+    {
+      "id": "granite-timeseries-flowstate-r1",
+      "name": "Granite FlowState R1",
+      "familyId": "timeseries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Point and probabilistic forecasting",
+        "Varying input/output lengths",
+        "Differing sampling rates"
+      ],
+      "capabilities": ["Point and probabilistic forecasting"],
+      "whenToChoose": "When TTM accuracy isn't sufficient and you can trade compute for better forecast quality.",
+      "tags": ["forecasting", "high-quality"],
+      "wizardMatches": {
+        "specializedTasks": ["forecasting"],
+        "factorTags": ["max-quality", "multivariate", "cloud"]
+      }
+    },
+    {
+      "id": "granite-timeseries-patchtst-fm-r2",
+      "name": "Granite PatchTST FM R2",
+      "familyId": "timeseries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Point and probabilistic forecasting",
+        "Varying input/output lengths"
+      ],
+      "capabilities": ["Point and probabilistic forecasting"],
+      "whenToChoose": "Latest PatchTST FM generation — Conformer-based blocks, longer context (up to 8,192 timepoints), and expanded training data improve on R1's probabilistic forecasting accuracy; backward-compatible with R1 checkpoints.",
+      "tags": ["forecasting", "univariate"],
+      "wizardMatches": {
+        "specializedTasks": ["forecasting"],
+        "factorTags": ["max-quality", "univariate"]
+      }
+    },
+    {
+      "id": "granite-timeseries-patchtst-fm-r1",
+      "name": "Granite PatchTST FM R1",
+      "familyId": "timeseries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Point and probabilistic forecasting",
+        "Varying input/output lengths"
+      ],
+      "capabilities": ["Point and probabilistic forecasting"],
+      "whenToChoose": "When you need highly accurate probabilistic forecasting for univariate time series data.",
+      "tags": ["forecasting", "univariate"],
+      "wizardMatches": {
+        "specializedTasks": ["forecasting"],
+        "factorTags": ["max-quality", "univariate"]
+      }
+    },
+    {
+      "id": "granitelib-core-r1.0",
+      "name": "GraniteLib Core R1.0",
+      "familyId": "libraries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": [
+        "Explainability & output verification",
+        "Response confidence calibration"
+      ],
+      "capabilities": [
+        "Context Attribution",
+        "Requirement Check",
+        "Uncertainty Quantification"
+      ],
+      "whenToChoose": "When you want to extend a Granite base model's general capabilities without full fine-tuning.",
+      "tags": ["lora", "general", "customization"],
+      "wizardMatches": {
+        "factorTags": ["cost-effective", "balanced", "adapter"]
+      }
+    },
+    {
+      "id": "granitelib-rag-r1.0",
+      "name": "GraniteLib RAG R1.0",
+      "familyId": "libraries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": ["RAG enhancement", "Retrieval-tuned generation"],
+      "capabilities": [
+        "Query Rewrite (QR)",
+        "Query Clarification (QC)",
+        "Context Relevance (CR)",
+        "Answerability Determination (AD)",
+        "Hallucination Detection (HD)",
+        "Citation Generation (CG)"
+      ],
+      "whenToChoose": "Building RAG pipelines on a Granite base model and want retrieval-optimized generation behavior out of the box.",
+      "tags": ["lora", "rag", "retrieval"],
+      "wizardMatches": {
+        "factorTags": ["balanced", "cost-effective", "adapter"]
+      }
+    },
+    {
+      "id": "granitelib-guardian-r1.0",
+      "name": "GraniteLib Guardian R1.0",
+      "familyId": "libraries",
+      "parameters": null,
+      "contextWindow": null,
+      "useCases": ["Safety layer add-on", "Lightweight content moderation"],
+      "capabilities": [
+        "Harm Detection",
+        "Hallucination Detection (HD)",
+        "Factuality Detection",
+        "Factuality Correction",
+        "Policy Guardrails"
+      ],
+      "whenToChoose": "When you want composable safety filtering on your existing Granite model rather than running a separate Guardian model.",
+      "tags": ["lora", "safety", "lightweight"],
+      "wizardMatches": { "factorTags": ["cost-effective", "edge", "adapter"] }
+    }
+  ],
+  "faqs": [
+    {
+      "question": "Which model should I start with for a general-purpose assistant?",
+      "answer": "Granite 4.2 8B is the recommended starting point for most production workloads. It offers a strong balance of quality across coding, RAG, instruction following, and multilingual support without the compute cost of the 30B model. Move to 3B if you need lower latency or on-device deployment, or to 30B if you need maximum reasoning quality."
+    },
+    {
+      "question": "What's the difference between Granite Vision and Granite Docling?",
+      "answer": "Both are Granite vision-language models (VLMs), but they're built for different jobs in a document pipeline. \n\nGranite Vision 4.1 4B is a 4B-parameter model purpose-built for structured document extraction. Think pulling targeted data out of document images, such as converting charts to CSV/code, extracting complex tables to JSON/HTML, and performing schema-based key-value pair extraction (e.g., pulling an invoice date or order number), delivering near-frontier accuracy at a fraction of the size of larger general VLMs. \n\nGranite Docling 258M, by contrast, is a much smaller (258M-parameter) model purpose-built for full-page document conversion — reading an entire page's layout (text, tables, code, formulas, charts) and reproducing it faithfully as a structured, machine-readable document (Markdown, HTML, or DocTags) via the open-source Docling toolkit, rather than pulling out isolated fields. \n\nIn short: Granite Vision answers targeted questions about specific elements within a document, while Granite Docling reconstructs the whole document's structure end-to-end — and the two can be combined, with Granite Vision plugging into Docling pipelines to add deeper visual understanding to specific extraction steps."
+    },
+    {
+      "question": "How do the Embedding models differ from the Language models for RAG?",
+      "answer": "Embedding models and Language models solve different problems in a RAG pipeline. An Embedding model converts text into dense numerical vectors that capture semantic meaning, so that a query and a relevant passage end up close together in vector space even if they don't share the same words — this is what makes fast, meaning-based retrieval over large document collections possible. A Language model, by contrast, doesn't retrieve anything; it generates fluent text, reasoning over whatever context it's given to produce an answer. \n\nIn a typical RAG pipeline, the two work in sequence: an Embedding model retrieves the most relevant passages for a query, an optional Reranker re-scores those passages for precision, and a Language model then generates the final answer grounded in that retrieved context. Using the right model for each step — rather than asking a Language model to also handle retrieval — keeps the pipeline both faster and more accurate at scale."
+    },
+    {
+      "question": "What are GraniteLib adapters and when should I use them?",
+      "answer": "GraniteLib models are LoRA adapters — small, modular extensions that attach to a Granite base model to add or enhance specific capabilities (RAG, safety, general instruction-following) without full fine-tuning. Use them when you want to customize a base model cheaply and composably, rather than deploying a separate specialized model."
+    },
+    {
+      "question": "What is Granite Switch, and when should I use it instead of separate Language, Guardian, and Speech models?",
+      "answer": "Granite Switch is a modular LLM: a single checkpoint that combines a Granite 4.1 base model with embedded LoRA adapters and a speech encoder. Granite Switch 4.1 8B and 30B ship with the guardian-core adapter for safety checks, the decision adapter for scoring a question against labelled options, and Granite Speech TurboCTC for English speech-to-text. You pick an adapter per request through the chat template (adapter_name), so one running server handles chat, safety checks, decisions, and transcription. \n\nChoose Switch when you need several of those capabilities together and want one endpoint and one GPU footprint — the 8B needs roughly half the VRAM of running Granite 4.1 8B, Guardian 4.1 8B, and a speech model side by side. Choose the separate models when you only need one capability, need multilingual speech (Switch's speech path is English-only), or need Guardian's full set of risk checks rather than guardian-core. You can also compose your own Switch checkpoint from the Granite Libraries adapters with the open-source granite-switch composer."
+    },
+    {
+      "question": "Can I combine multiple Granite models in a pipeline?",
+      "answer": "Yes — this is a common pattern. For example: Granite Embedding for retrieval, Granite Reranker for precision, Granite Language for generation, Granite Guardian for safety checking. Each model is optimized for its step in the pipeline."
+    }
+  ],
+  "wizardOptions": {
+    "step1": [
+      {
+        "value": "multilingual-support",
+        "label": "Multilingual support",
+        "followup": {
+          "prompt": "Do you need multilingual support?",
+          "choices": [
+            { "value": "yes", "label": "Yes", "tag": "multilingual" },
+            { "value": "no", "label": "No, English is sufficient" }
+          ]
+        }
+      },
+      {
+        "value": "resource-environment",
+        "label": "Resource environment",
+        "followup": {
+          "prompt": "Will this run on CPU or GPU?",
+          "choices": [
+            { "value": "cpu", "label": "CPU", "tag": "edge" },
+            { "value": "gpu", "label": "GPU" }
+          ]
+        }
+      }
+    ],
+    "specializedTasks": {
+      "timeseries": [
+        {
+          "value": "forecasting",
+          "label": "Forecast future values from historical data"
+        },
+        {
+          "value": "anomaly-detection",
+          "label": "Detect anomalies, impute missing data, search, or classification"
+        }
+      ],
+      "speech": [
+        {
+          "value": "asr",
+          "label": "Automatic speech recognition / transcription"
+        },
+        {
+          "value": "diarization",
+          "label": "Identify speakers and timestamps (speaker diarization)"
+        },
+        {
+          "value": "batch-throughput",
+          "label": "Quick, large-batch transcription (batch/NAR throughput)"
+        }
+      ],
+      "guardian": [
+        {
+          "value": "harm-detection",
+          "label": "Detect harmful or risky content"
+        },
+        {
+          "value": "harm-categorization",
+          "label": "Multi-label harm categorization / auto-correction"
+        },
+        {
+          "value": "factuality",
+          "label": "Detect hallucinations or factual errors"
+        },
+        {
+          "value": "byoc",
+          "label": "Define custom risk/policy criteria (bring-your-own-criteria)"
+        }
+      ],
+      "embedding": [
+        {
+          "value": "retrieval",
+          "label": "Retrieve the most relevant documents for a query"
+        },
+        { "value": "reranking", "label": "Re-rank retrieved results" },
+        {
+          "value": "multimodal-retrieval",
+          "label": "Multimodal retrieval (no-OCR document retrieval)"
+        }
+      ]
+    },
+    "factorsA": [
+      {
+        "value": "throughput",
+        "label": "Throughput",
+        "followup": {
+          "prompt": "How many requests/items must be processed, and does peak throughput matter?",
+          "choices": [
+            {
+              "value": "high-volume",
+              "label": "High-volume / peak throughput matters",
+              "tag": "high-throughput"
+            },
+            { "value": "low-moderate", "label": "Low to moderate volume" }
+          ]
+        }
+      },
+      {
+        "value": "latency",
+        "label": "Latency requirement",
+        "followup": {
+          "prompt": "Do you need immediate/interactive or on-device responses, or can this run in batch?",
+          "choices": [
+            {
+              "value": "interactive",
+              "label": "Immediate / interactive",
+              "tag": "latency-interactive"
+            },
+            {
+              "value": "on-device",
+              "label": "On-device / real-time",
+              "tag": "edge"
+            },
+            {
+              "value": "batch",
+              "label": "Batch is fine",
+              "tag": "latency-batch"
+            }
+          ]
+        }
+      },
+      {
+        "value": "agentic",
+        "label": "Involves agents / tool-calling",
+        "followup": {
+          "prompt": "Does this need to call tools/APIs or orchestrate multi-step agentic chains, or is it single-turn generation?",
+          "choices": [
+            {
+              "value": "agentic",
+              "label": "Needs tool-calling / multi-step agent chains",
+              "tag": "agentic"
+            },
+            { "value": "single-turn", "label": "Single-turn generation only" }
+          ]
+        }
+      },
+      {
+        "value": "reasoning-depth",
+        "label": "Reasoning depth",
+        "followup": {
+          "prompt": "Does this need deep, multi-step reasoning, or straightforward generation?",
+          "choices": [
+            {
+              "value": "deep",
+              "label": "Deep, multi-step reasoning",
+              "tag": "deep-reasoning"
+            },
+            {
+              "value": "straightforward",
+              "label": "Straightforward generation"
+            }
+          ]
+        }
+      },
+      {
+        "value": "data-shape",
+        "label": "Data shape",
+        "families": ["timeseries"],
+        "followup": {
+          "prompt": "Is your data univariate or multivariate, fixed or varying length, and at what sampling rate?",
+          "choices": [
+            {
+              "value": "univariate",
+              "label": "Univariate, fixed-length, regular sampling",
+              "tag": "univariate"
+            },
+            {
+              "value": "multivariate",
+              "label": "Multivariate and/or variable-length/irregular sampling",
+              "tag": "multivariate"
+            }
+          ]
+        }
+      },
+      {
+        "value": "missing-data",
+        "label": "Missing/incomplete data handling",
+        "families": ["timeseries"],
+        "followup": {
+          "prompt": "Do you need to impute missing values in the input?",
+          "choices": [
+            {
+              "value": "yes",
+              "label": "Yes, need to impute missing values",
+              "tag": "imputation"
+            },
+            { "value": "no", "label": "No, data is complete" }
+          ]
+        }
+      },
+      {
+        "value": "language-needs",
+        "label": "Language needs",
+        "families": ["speech", "embedding"],
+        "followup": {
+          "prompt": "Which languages must be supported?",
+          "multiSelect": true,
+          "choices": [
+            { "value": "english", "label": "English" },
+            { "value": "spanish", "label": "Spanish", "tag": "multilingual" },
+            { "value": "french", "label": "French", "tag": "multilingual" },
+            { "value": "german", "label": "German", "tag": "multilingual" },
+            { "value": "japanese", "label": "Japanese", "tag": "multilingual" },
+            {
+              "value": "other",
+              "label": "Other / multilingual",
+              "tag": "multilingual"
+            }
+          ]
+        }
+      },
+      {
+        "value": "accuracy-bar",
+        "label": "Accuracy/quality bar required",
+        "followup": {
+          "prompt": "How much does this prioritize accuracy/quality over speed, cost, or footprint?",
+          "choices": [
+            {
+              "value": "maximum",
+              "label": "Maximum accuracy, compute available",
+              "tag": "max-quality"
+            },
+            {
+              "value": "balanced",
+              "label": "Balanced accuracy vs. cost/speed",
+              "tag": "balanced"
+            },
+            {
+              "value": "speed-cost",
+              "label": "Speed/cost matters more than peak accuracy",
+              "tag": "cost-effective"
+            }
+          ]
+        }
+      },
+      {
+        "value": "reproducibility",
+        "label": "Reproducibility needs",
+        "followup": {
+          "prompt": "Must outputs be consistent/repeatable across runs, or is some variation acceptable?",
+          "choices": [
+            {
+              "value": "consistent",
+              "label": "Must be consistent/repeatable across runs",
+              "tag": "reproducible"
+            },
+            { "value": "variable", "label": "Some variation is acceptable" }
+          ]
+        }
+      },
+      {
+        "value": "workflow-narrowness",
+        "label": "Workflow narrowness / repeatability",
+        "followup": {
+          "prompt": "Is the task narrow, repeatable, and easy to evaluate, or open-ended/high-variance?",
+          "choices": [
+            {
+              "value": "narrow",
+              "label": "Narrow, repeatable, easy to evaluate",
+              "tag": "narrow-workflow"
+            },
+            {
+              "value": "open-ended",
+              "label": "Open-ended / high-variance",
+              "tag": "open-ended"
+            }
+          ]
+        }
+      },
+      {
+        "value": "document-scope",
+        "label": "Document-processing scope",
+        "families": ["docling", "vision"],
+        "followup": {
+          "prompt": "Do you need full-page/whole-document conversion, or a single targeted extraction on one visual element?",
+          "choices": [
+            {
+              "value": "full-doc",
+              "label": "Full-page / whole-document conversion",
+              "tag": "full-doc-conversion"
+            },
+            {
+              "value": "targeted",
+              "label": "Single targeted extraction on one element",
+              "tag": "targeted-extraction"
+            }
+          ]
+        }
+      },
+      {
+        "value": "context-length",
+        "label": "Context length needed",
+        "followup": {
+          "prompt": "How much input context must the model handle at once?",
+          "choices": [
+            {
+              "value": "short-medium",
+              "label": "Short to medium (up to a few pages)"
+            },
+            {
+              "value": "long",
+              "label": "Long (32K+ tokens)",
+              "tag": "long-context"
+            },
+            {
+              "value": "very-long",
+              "label": "Very long (128K+ tokens)",
+              "tag": "long-context"
+            }
+          ]
+        }
+      }
+    ],
+    "factorsB": [
+      {
+        "value": "hardware",
+        "label": "Hardware / memory footprint available",
+        "followup": {
+          "prompt": "How much memory/compute headroom does your deployment environment have?",
+          "choices": [
+            { "value": "cpu-edge", "label": "CPU-only / edge", "tag": "edge" },
+            {
+              "value": "single-gpu",
+              "label": "Local / single-GPU",
+              "tag": "on-prem"
+            },
+            {
+              "value": "multi-gpu",
+              "label": "Multi-GPU / cloud",
+              "tag": "cloud"
+            }
+          ]
+        }
+      },
+      {
+        "value": "compute-availability",
+        "label": "Compute availability",
+        "followup": {
+          "prompt": "Is extra compute available to trade for better output quality?",
+          "choices": [
+            {
+              "value": "yes",
+              "label": "Yes, extra compute is available",
+              "tag": "max-quality"
+            },
+            {
+              "value": "no",
+              "label": "No, compute is constrained",
+              "tag": "cost-effective"
+            }
+          ]
+        }
+      },
+      {
+        "value": "cost",
+        "label": "Cost",
+        "followup": {
+          "prompt": "How much does cost sensitivity constrain your choice?",
+          "choices": [
+            {
+              "value": "major",
+              "label": "Cost is a major constraint",
+              "tag": "cost-effective"
+            },
+            { "value": "minor", "label": "Cost is a minor factor" }
+          ]
+        }
+      }
+    ],
+    "factorsC": [
+      {
+        "value": "team-resourcing",
+        "label": "Company size / team resourcing",
+        "followup": {
+          "prompt": "How much MLOps/infra resourcing does your team have? Does that favor managed inference or self-hosting larger models?",
+          "choices": [
+            {
+              "value": "limited",
+              "label": "Small team, limited MLOps",
+              "tag": "managed-inference"
+            },
+            {
+              "value": "dedicated",
+              "label": "Dedicated infra team",
+              "tag": "self-hosted"
+            }
+          ]
+        }
+      },
+      {
+        "value": "deployment-boundary",
+        "label": "Deployment environment & data boundary",
+        "followup": {
+          "prompt": "Must this run fully offline/air-gapped or under data-residency restrictions, or is a hosted API/managed cloud acceptable?",
+          "choices": [
+            {
+              "value": "air-gapped",
+              "label": "Air-gapped / data-residency restricted",
+              "tag": "air-gapped"
+            },
+            {
+              "value": "hosted-ok",
+              "label": "Hosted API / managed cloud is acceptable"
+            }
+          ]
+        }
+      },
+      {
+        "value": "license-readiness",
+        "label": "License / production-readiness",
+        "followup": {
+          "prompt": "Must the model/adapter be licensed and supported for production use, or is experimental/preview status acceptable?",
+          "choices": [
+            {
+              "value": "production",
+              "label": "Must be production-licensed and supported",
+              "tag": "production-ready"
+            },
+            {
+              "value": "experimental",
+              "label": "Experimental/preview status is fine"
+            }
+          ]
+        }
+      },
+      {
+        "value": "governance",
+        "label": "Governance / certification",
+        "followup": {
+          "prompt": "Do you need formal governance evidence — a specific license type, third-party certification, or cryptographic provenance/signing — beyond general production-ready status?",
+          "choices": [
+            {
+              "value": "yes",
+              "label": "Yes, need certification/provenance beyond production-ready",
+              "tag": "governance-certified"
+            },
+            { "value": "no", "label": "No, general production-ready is enough" }
+          ]
+        }
+      }
+    ],
+    "tradeoffs": [
+      {
+        "value": "accuracy-vs-speed",
+        "label": "Accuracy/quality vs. speed",
+        "followup": {
+          "prompt": "Accuracy/quality vs. speed?",
+          "choices": [
+            {
+              "value": "accuracy",
+              "label": "Prioritize accuracy/quality",
+              "tag": "max-quality"
+            },
+            {
+              "value": "speed",
+              "label": "Prioritize speed",
+              "tag": "cost-effective"
+            }
+          ]
+        }
+      },
+      {
+        "value": "accuracy-vs-cost",
+        "label": "Accuracy vs. compute cost",
+        "followup": {
+          "prompt": "Accuracy vs. compute cost?",
+          "choices": [
+            {
+              "value": "accuracy",
+              "label": "Prioritize accuracy",
+              "tag": "max-quality"
+            },
+            {
+              "value": "cost",
+              "label": "Prioritize lower compute cost",
+              "tag": "cost-effective"
+            }
+          ]
+        }
+      },
+      {
+        "value": "multilingual-vs-footprint",
+        "label": "Multilingual coverage vs. footprint/speed",
+        "followup": {
+          "prompt": "Multilingual coverage vs. footprint/speed?",
+          "choices": [
+            {
+              "value": "multilingual",
+              "label": "Prioritize multilingual coverage",
+              "tag": "multilingual"
+            },
+            {
+              "value": "footprint",
+              "label": "Prioritize smaller footprint/speed",
+              "tag": "edge"
+            }
+          ]
+        }
+      },
+      {
+        "value": "general-vs-specialized",
+        "label": "General-purpose base model vs. specialized/staged pipeline role",
+        "followup": {
+          "prompt": "General-purpose base model vs. specialized/staged pipeline role (e.g. reranker after retriever)?",
+          "choices": [
+            {
+              "value": "general",
+              "label": "General-purpose base model",
+              "tag": "balanced"
+            },
+            {
+              "value": "specialized",
+              "label": "Specialized / staged pipeline role (e.g. reranker after retriever)",
+              "tag": "reranker"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

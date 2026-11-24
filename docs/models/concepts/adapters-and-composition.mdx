@@ -1,0 +1,82 @@
+---
+sidebar_position: 4
+title: Adapters and composition
+description: How LoRA and aLoRA adapters, Granite Libraries, and Granite Switch fit together.
+---
+
+# Adapters and composition
+
+:::note[Draft content]
+This page is draft content for review.
+:::
+
+Granite takes a modular approach to specialized tasks. Instead of training and hosting a separate model for each task, small **adapters** teach a shared base model one task each. IBM publishes ready-made adapters in **Granite Libraries**, and **Granite Switch** composes a base model and its adapters into a single checkpoint that you deploy once.
+
+Why this approach:
+
+- **Accuracy on targeted tasks.** A small model with the right adapter can match, and sometimes beat, much larger general-purpose models on tasks such as hallucination detection or query rewriting. See the benchmarks in the [adapter catalog](https://generative-computing.github.io/granite-switch/adapter_catalog.html).
+- **One deployment, many capabilities.** A single endpoint can serve chat, decisions, safety checks, and RAG steps, using about the same GPU memory as the base model alone.
+- **Update parts independently.** You can upgrade or swap one adapter without retraining or redeploying the rest, the way you update one dependency in a software project.
+
+## LoRA and aLoRA adapters
+
+A **LoRA** (low-rank adaptation) adapter is a small set of extra weights trained on top of a base model that stays frozen. Because the base model doesn't change, many adapters can share it, and you can switch between them for different tasks.
+
+Standard LoRA has a cost in multi-step workflows. An adapter changes how the model processes the whole conversation, so switching from one adapter to another means processing the conversation again, recomputing the KV cache from scratch. In a RAG workflow that rewrites the query, checks answerability, answers, and then adds citations, that cost repeats at every step.
+
+An **aLoRA** (activated LoRA) adapter only takes effect from an invocation point forward, marked by a control token such as `<guardian>`. Everything before that point is processed by the base model, so all aLoRA adapters can reuse the same KV cache. The model can move between steps and adapters without reprocessing the conversation, which keeps latency low and throughput high.
+
+Granite adapters are also built as **adapter functions**. Each one is trained for a fixed input and output, such as a score, a choice between options, or a rewritten query, rather than free-form text. A known output format is what lets adapters be called and combined like functions in code.
+
+To learn more:
+
+- [Inference-friendly aLoRAs](https://research.ibm.com/blog/inference-friendly-aloras-lora) on the IBM Research blog, and the [aLoRA paper](https://arxiv.org/abs/2504.12397).
+- [How Granite Switch works](https://github.com/generative-computing/granite-switch#how-it-works): control tokens, a shared KV cache, and prefill reuse.
+- The [aLoRA vs. LoRA race notebook](https://colab.research.google.com/github/generative-computing/granite-switch/blob/main/tutorials/notebooks/alora_vs_lora_race.ipynb) on Colab, which compares the two on the same model and hardware.
+
+## Granite Libraries
+
+[Granite Libraries](https://huggingface.co/collections/ibm-granite/granite-libraries-69b821e3012570d46782f162) are collections of ready-made adapters, grouped by purpose:
+
+| Library | Adapters | Use it for |
+| ------- | -------- | ---------- |
+| [Core](https://huggingface.co/ibm-granite/granitelib-core-r1.0) | Context attribution, decision, requirement check, uncertainty | Explaining which context the model used, picking between fixed options, checking a response against requirements, and calibrated confidence scores |
+| [RAG](https://huggingface.co/ibm-granite/granitelib-rag-r1.0) | Query rewrite, query clarification, context relevance, answerability, hallucination detection, citation generation | Each step of an agentic RAG pipeline, before retrieval, before generation, and after generation |
+| [Guardian](https://huggingface.co/ibm-granite/granitelib-guardian-r1.0) | Guardian core, factuality detection, factuality correction, policy guardrails | Safety risk detection, checking and correcting facts against passages, and policy compliance |
+
+Things to know:
+
+- **Base models:** the r1.0 adapters are trained for Granite 4.0 Micro and the Granite 4.1 3B, 8B, and 30B language models. The decision adapter is available for 4.1 8B and 30B only. An adapter only works with the base model it was trained for.
+- **LoRA and aLoRA:** every adapter is available as a LoRA, and many also as an aLoRA. Each library's model card lists which.
+- **Signed:** every adapter is signed. Each library's model card explains how to verify it. See also [Verify model signatures](../trust/verify-signatures.mdx).
+- **Details per adapter:** each adapter has its own README in the library repository, with its inputs, outputs, and evaluation results. You can also compare results in the [Granite Libraries evaluation Space](https://huggingface.co/spaces/ibm-granite/granitelib-evals).
+
+You can use an adapter on its own, loaded on top of its base model, or as part of a Granite Switch model.
+
+## How Granite Switch composes models
+
+A [Granite Switch](https://huggingface.co/collections/ibm-granite/granite-switch-6ad0cfd3d7f320024e5db03b) model is a Granite base model with adapters from Granite Libraries embedded in the same checkpoint, and optionally a speech encoder. Each adapter has a control token in the model's chat template, so each request, or each step within a request, selects the adapter it needs. All adapters share the base model's KV cache, so the combined model uses about the same GPU memory as the base model alone.
+
+There are two ways to use Switch:
+
+- **Use a pre-composed model.** [Granite Switch 4.1 8B](https://huggingface.co/ibm-granite/granite-switch-4.1-8b) and [30B](https://huggingface.co/ibm-granite/granite-switch-4.1-30b) combine a Granite 4.1 base model with the decision and Guardian core adapters, plus [Granite Speech 5.0 TurboCTC](https://huggingface.co/ibm-granite/granite-speech-5.0-470m-turboctc) for speech-to-text. One endpoint serves chat, decisions, safety checks, and transcription. The `-preview` models, in 3B, 8B, and 30B sizes, embed 12 adapters from all three libraries instead.
+- **Compose your own.** The [granite-switch](https://github.com/generative-computing/granite-switch) composer combines a base model with the libraries and adapters you choose, and produces a checkpoint that runs in both Transformers and vLLM. The [adapter catalog](https://generative-computing.github.io/granite-switch/adapter_catalog.html) helps you pick adapters and generates the compose command.
+
+Because the base model and the adapters are separate parts, Switch models are updated like software. [Granite Switch 4.1.1](https://huggingface.co/blog/ibm-granite/granite-switch-4-1-1) shipped a new decision adapter and an updated speech model as a backward-compatible patch release. The base model stayed the same.
+
+Switch models run with vLLM, using the granite-switch plugin, with Hugging Face Transformers for prototyping, and with llama.cpp using the GGUF variants. To serve decisions through [OpenAI's Decisions API](https://developers.openai.com/api/docs/guides/decisions) format alongside chat, use the [granite-switch-decision](https://github.com/generative-computing/granite-switch-decision) vLLM plugin.
+
+## Where to start
+
+| If you want to | Start here |
+| -------------- | ---------- |
+| Understand the idea and why it matters | [Granite Switch 4.1 announcement](https://huggingface.co/blog/ibm-granite/granite-switch-4-1) |
+| Browse adapters and compare benchmarks | [Adapter catalog](https://generative-computing.github.io/granite-switch/adapter_catalog.html) |
+| Call adapters from Python in 5 minutes | [Hello Mellea notebook](https://colab.research.google.com/github/generative-computing/granite-switch/blob/main/tutorials/notebooks/hello_mellea.ipynb) on Colab |
+| Build a RAG flow with query rewrite, answerability, and citations in one model | [RAG flow notebook](https://colab.research.google.com/github/generative-computing/granite-switch/blob/main/tutorials/notebooks/rag_flow.ipynb) on Colab |
+| Compose your own Switch model | [Compose your own notebook](https://colab.research.google.com/github/generative-computing/granite-switch/blob/main/tutorials/notebooks/compose_granite_switch.ipynb) on Colab, and the [granite-switch](https://github.com/generative-computing/granite-switch) repository |
+| Serve a Switch model with chat and decision endpoints | [granite-switch-decision](https://github.com/generative-computing/granite-switch-decision) |
+| Try speech-to-decision in the browser | [Speech-to-decisions demo](https://huggingface.co/spaces/ibm-granite/speech-to-decisions) |
+| Use a single adapter with its base model | The library model card: [Core](https://huggingface.co/ibm-granite/granitelib-core-r1.0), [RAG](https://huggingface.co/ibm-granite/granitelib-rag-r1.0), or [Guardian](https://huggingface.co/ibm-granite/granitelib-guardian-r1.0) |
+
+For more tutorials and guided learning paths, see the [granite-switch tutorials](https://github.com/generative-computing/granite-switch/blob/main/tutorials/README.md).

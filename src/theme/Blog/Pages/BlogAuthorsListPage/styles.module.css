@@ -1,0 +1,118 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 2rem 0 0;
+  border-top: 1px solid var(--carbon-border-subtle);
+  list-style: none;
+}
+
+.grid > li {
+  margin: 0;
+}
+
+/* Carbon tile */
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem 1rem 1rem;
+  background-color: var(--carbon-layer);
+  transition: background-color 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.tileLink:hover {
+  background-color: var(--carbon-layer-hover);
+}
+
+.tile:has(.nameLink:focus-visible) {
+  outline: 2px solid var(--carbon-focus);
+  outline-offset: -2px;
+}
+
+.name {
+  margin: 1.5rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.75rem;
+}
+
+.nameLink {
+  color: var(--ifm-heading-color);
+}
+
+.nameLink:hover {
+  color: var(--ifm-heading-color);
+  text-decoration: none;
+}
+
+.nameLink:focus-visible {
+  outline: none;
+}
+
+.nameLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.title {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.16px;
+  color: var(--carbon-text-secondary);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.count {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.32px;
+  color: var(--carbon-text-secondary);
+}
+
+/* Social links sit above the stretched name link */
+.socials {
+  position: relative;
+  z-index: 1;
+  color: var(--carbon-text-secondary);
+}
+
+.socials a {
+  color: inherit;
+}
+
+.socials a:hover {
+  color: var(--ifm-font-color-base);
+}
+
+@media (max-width: 1312px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 996px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

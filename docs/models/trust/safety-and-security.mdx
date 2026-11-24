@@ -1,0 +1,74 @@
+---
+sidebar_position: 4
+title: Safety and security
+description: Add guardrails, reduce prompt injection risk, test and secure your deployment, and report issues.
+---
+
+# Safety and security
+
+:::note[Draft content]
+This page is draft content for review.
+:::
+
+Granite models are trained and aligned for safety, but like all language models, they can still produce inaccurate, biased, or unsafe output, and they can be manipulated by adversarial input. Safety in production comes from the whole system: the model, the guardrails around it, and how you test and operate it. Each model card describes the model's known limitations in its *Ethical considerations and limitations* section.
+
+## Add guardrails with Granite Guardian
+
+[Granite Guardian](https://huggingface.co/collections/ibm-granite/granite-guardian-66db06b1202a56cf7b079562) models check the prompts going into your application and the responses coming out, and flag risks before they reach users. They run alongside any language model, not only Granite.
+
+[Granite Guardian 4.1 8B](https://huggingface.co/ibm-granite/granite-guardian-4.1-8b) has built-in checks for:
+
+- **Harmful content:** general harm, social bias, violence, profanity, sexual content, unethical behavior, and jailbreak attempts.
+- **RAG hallucinations:** whether retrieved documents are relevant, whether a response is grounded in them, and whether it answers the question.
+- **Agentic hallucinations:** function calls that don't match the available tools.
+
+You can also define your own criteria in plain language, such as a formatting or policy rule. Each check returns a yes or no judgement, with optional reasoning.
+
+Choose the option that fits your cost and latency needs:
+
+| Option | Best for |
+| ------ | -------- |
+| [Granite Guardian 4.1 8B](https://huggingface.co/ibm-granite/granite-guardian-4.1-8b) | A separate guardrail model for monitoring, evaluation, and checking inputs and outputs |
+| [Guardian adapters in Granite Libraries](../concepts/adapters-and-composition.mdx#granite-libraries) | Safety, factuality, and policy checks on the same Granite base model that serves your application, without hosting a second model |
+| [Granite Guardian HAP 38M](https://huggingface.co/ibm-granite/granite-guardian-hap-38m) | Fast, low-cost detection of hate, abuse, and profanity |
+
+:::caution
+Use Guardian models only for the scoring task they're trained for, with the prompt format on the model card. Granite Guardian 4.1 8B is trained and tested on English data only. Test custom criteria before you rely on them.
+:::
+
+To get started, see the [model card](https://huggingface.co/ibm-granite/granite-guardian-4.1-8b) and the [Granite Guardian cookbooks](https://github.com/ibm-granite/granite-guardian/tree/main/cookbooks/granite-guardian-4.1) on GitHub.
+
+## Reduce prompt injection risk
+
+In a prompt injection, an attacker hides instructions in content your application passes to the model, such as a retrieved document, a web page, or a tool result. To reduce the risk:
+
+- **Keep untrusted content separate from your instructions.** Don't concatenate retrieved or user-supplied text into your system prompt.
+- **Check inputs for jailbreak attempts** with Granite Guardian before they reach your model.
+- **Try LLMON (preview).** The Granite LLMON models are trained to follow only the instructions you point them at, and to treat documents and tool results as data. See [LLMON](../concepts/llmon.mdx).
+- **Limit what the model can do.** Give agents only the tools and permissions they need, and confirm sensitive actions with a person.
+
+## Test before you deploy
+
+Test your application, not just the model, against the risks that matter for your use case:
+
+- [ARES](https://github.com/IBM/ares) is IBM's open-source framework for red-teaming AI applications.
+- [AI Atlas Nexus](https://github.com/IBM/ai-atlas-nexus) and the [IBM AI Risk Atlas](https://www.ibm.com/docs/en/watsonx/saas?topic=ai-risk-atlas) help you identify and map AI risks for your use case.
+
+## Protect the model supply chain
+
+Make sure the model you run is the model IBM published:
+
+- Download Granite models only from the [ibm-granite](https://huggingface.co/ibm-granite) organization on Hugging Face, or from a provider you trust. Variants and fine-tunes published by others aren't reviewed or signed by IBM.
+- [Verify the model's signature](./verify-signatures.mdx) after you download it, and before you deploy it.
+
+## Responsible use
+
+Granite models are developed under IBM's [principles for trust and transparency](https://www.ibm.com/trust/responsible-technology). For IBM's approach to responsible AI, training data transparency, and governance, see [Granite trust, safety and security](https://www.ibm.com/granite/trust). For the license and training disclosures of each model, see [Licensing and disclosures](./licensing-and-disclosures.mdx).
+
+## Report an issue
+
+To report a security vulnerability or a model safety issue, such as a jailbreak, or harmful or biased output, contact the [IBM Product Security Incident Response Team (PSIRT)](https://www.ibm.com/support/pages/feedback/security-psirt). Include the model name and version, the prompt or steps to reproduce the issue, and the output you received.
+
+To learn how IBM handles reported vulnerabilities, see [IBM security vulnerability management](https://www.ibm.com/trust/security-vulnerability-management).
+
+IBM also runs an invite-only [bug bounty program with HackerOne](https://research.ibm.com/blog/granite-hackerone-bug-bounty) for security researchers who test Granite models with guardrails in place.

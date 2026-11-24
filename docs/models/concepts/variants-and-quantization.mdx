@@ -1,0 +1,81 @@
+---
+sidebar_position: 3
+title: Variants and quantization
+---
+
+# Variants and quantization
+
+:::note[Draft content]
+This page is draft content for review.
+:::
+
+Many Granite models are published in several **variants**: the same model, stored in a different file format or at a different numeric precision. Each variant is its own repository on Hugging Face, named with a format suffix such as `-GGUF` or `-fp8`. See [Naming and versions](./naming-and-versions.mdx).
+
+Most variants are **quantized**: their weights are stored with fewer bits than the original model. A quantized model is a smaller download, needs less memory, and often runs faster, at the cost of some output quality. How much quality you lose depends on the precision, the model size, and your task.
+
+## Full-precision models
+
+The main repository for a model, for example [`granite-4.2-8b`](https://huggingface.co/ibm-granite/granite-4.2-8b), holds the full-precision weights in BF16 (bfloat16), stored as safetensors files. BF16 uses 2 bytes per parameter, so Granite 4.2 8B is about 17.6 GB.
+
+Use the full-precision model when you:
+
+- Need the reference quality. The benchmarks on a model card are measured with the full-precision model.
+- Serve on GPUs with enough memory, using Transformers, vLLM, or SGLang.
+- Fine-tune the model, or train adapters for it.
+
+The same BF16 precision is also available in other formats: as the `bf16` file in the GGUF repository, and as the `-bf16-mlx` repository for Apple Silicon.
+
+## Quantized variants
+
+| Variant | Repository suffix | Precision | Runs with | Hardware |
+| ------- | ----------------- | --------- | --------- | -------- |
+| GGUF | `-GGUF` | Many levels, from 2-bit to 8-bit, plus BF16. One file per level. | llama.cpp, Ollama, and other GGUF-based tools | CPU, GPU, or both, including laptops |
+| FP8 | `-fp8` | 8-bit floating point for weights and activations | vLLM and other servers that support compressed-tensors checkpoints | GPUs with FP8 support, such as NVIDIA Hopper and Ada Lovelace or later |
+| MXFP4 | `-mxfp4` | 4-bit floating point, in the open microscaling (MX) format | vLLM and other servers that support compressed-tensors checkpoints | GPUs with FP4 support, such as NVIDIA Blackwell and AMD Instinct MI350 series |
+| NVFP4 | `-nvfp4` | 4-bit floating point, in NVIDIA's FP4 format | vLLM and other servers that support compressed-tensors checkpoints | NVIDIA Blackwell GPUs |
+| MLX | `-bf16-mlx`, `-q8-mlx`, `-q4-mlx` | BF16, 8-bit, or 4-bit | [mlx-lm](https://github.com/ml-explore/mlx-lm) | Apple Silicon Macs (M1 or later) |
+| ONNX | `-ONNX` | 4-bit weights | [Transformers.js](https://huggingface.co/docs/transformers.js) | In the browser, using WebGPU |
+
+The FP8, MXFP4, and NVFP4 variants are made for GPU serving. They quantize both the weights and the activations, and keep the output layer at full precision. On GPUs without native support for a format, some runtimes fall back to slower kernels or don't load the model at all. Check your runtime's documentation.
+
+:::info[Not every model has every variant]
+The Granite 4.2 language models are published in all the GPU and MLX formats. Many other models have a GGUF variant only. Embedding, Time Series, and Granite Libraries models, and some speech models, are published at full precision only. To see what's available for a model, open its [collection](https://huggingface.co/collections/ibm-granite) on Hugging Face.
+:::
+
+:::caution[Community quantizations]
+On a model's Hugging Face page, **Model tree → Quantizations** also lists variants made by the community. Only repositories in the [ibm-granite](https://huggingface.co/ibm-granite) organization are published and signed by IBM. See [Verify model signatures](../trust/verify-signatures.mdx).
+:::
+
+### GGUF quantization levels
+
+A GGUF repository holds one file per quantization level, for example `granite-4.2-8b-Q4_K_M.gguf`. The level name tells you how the weights are stored:
+
+- The number is the approximate bits per weight: `Q4` is about 4 bits, `Q8` is about 8 bits.
+- `K` marks the newer k-quant method, which mixes precisions across layers to preserve quality. `Q4_0` and `Q4_1` are older methods.
+- `S`, `M`, and `L` (small, medium, large) mark how many layers keep a higher precision. Larger means better quality and a bigger file.
+
+### Example: Granite 4.2 8B
+
+Download sizes for the variants of Granite 4.2 8B show how much each precision saves:
+
+| Precision | Variants | Download size |
+| --------- | -------- | ------------- |
+| BF16 (full precision) | `granite-4.2-8b`, `-bf16-mlx`, GGUF `bf16` | 17.6 GB |
+| 8-bit | `-fp8`, GGUF `Q8_0`, `-q8-mlx` | 9.3–9.6 GB |
+| 6-bit | GGUF `Q6_K` | 7.2 GB |
+| 4-bit | `-nvfp4`, `-mxfp4`, GGUF `Q4_K_M`, `-q4-mlx` | 5.0–6.1 GB |
+| 2-bit | GGUF `Q2_K` | 3.4 GB |
+
+Running a model takes more memory than its download size, because the context (the KV cache) also needs memory, and it grows with context length. To check which variants fit your hardware, use the model selector.
+
+## Choosing a variant
+
+Start from where the model will run:
+
+- **Laptop or desktop, CPU or mixed CPU and GPU:** GGUF with llama.cpp or Ollama. `Q4_K_M` is a good default, and is the level used in the [Quickstart](../get-started.mdx#quickstart). If you have memory to spare, `Q5_K_M`, `Q6_K`, or `Q8_0` give output closer to full precision. Use `Q3` or `Q2` levels only when memory is very limited, because quality drops noticeably.
+- **Mac with Apple Silicon:** MLX `-q4-mlx` or `-q8-mlx` with mlx-lm. GGUF with llama.cpp also runs well on Apple Silicon.
+- **Serving on recent NVIDIA GPUs:** `-fp8` halves memory compared with BF16, with a small quality cost. On Blackwell GPUs, `-nvfp4` or `-mxfp4` reduce memory further and increase throughput.
+- **Evaluating, fine-tuning, or needing reference quality:** the full-precision model.
+- **In the browser:** the ONNX variant, where one is available.
+
+Whatever you choose, test the variant on your own prompts before you deploy it. Quantization affects some tasks, such as long reasoning, math, and code, more than others. If quality isn't good enough, try a higher-precision level before you switch to a larger model.

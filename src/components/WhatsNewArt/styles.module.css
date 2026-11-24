@@ -1,0 +1,71 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/**
+ * Black 424px-tall panel (Figma node 142:9773); the 736×408 artwork stage
+ * stays centered at its design size and is cropped at the sides on narrower
+ * screens.
+ */
+.panel {
+  position: relative;
+  height: 26.5rem; /* 424px */
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.stage {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 46rem; /* 736px */
+  height: 25.5rem;
+  margin-left: -23rem;
+}
+
+.perspective {
+  perspective: 900px;
+}
+
+/* The pyramid sits 8px lower so it stays centered in the 424px panel */
+.centered {
+  top: 0.5rem;
+}
+
+/* A cube face: its Figma vector masks a fill the timeline can recolor. */
+.face {
+  position: absolute;
+  -webkit-mask: var(--mask) center / 100% 100% no-repeat;
+  mask: var(--mask) center / 100% 100% no-repeat;
+}
+
+.layer {
+  position: absolute;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+}
+
+/* "Blog Image" (node 156:491): 290×221 at (223, 119), page centered in the 424px panel */
+.blogImage {
+  position: absolute;
+  top: 7.4375rem;
+  left: 13.9375rem;
+  width: 18.125rem;
+  height: 13.8125rem;
+}
+
+.viewport {
+  position: absolute;
+  overflow: hidden;
+}
+
+/* "Second article — text lines" (node 157:499): px within the content box */
+.secondLines {
+  position: absolute;
+  top: 405.24px;
+  left: 28.27px;
+  width: 191.52px;
+  height: 54.186px;
+}

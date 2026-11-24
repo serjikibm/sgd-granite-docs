@@ -1,0 +1,72 @@
+---
+sidebar_position: 2
+title: Naming and versions
+---
+
+# Naming and versions
+
+:::note[Draft content]
+This page is draft content for review.
+:::
+
+## Reading a model name
+
+A Granite model name is the name of its repository on Hugging Face. Most names follow this pattern, where segments in square brackets appear only when they apply:
+
+```text
+granite-[family]-<version>-<size>[-<active>][-<variant>][-<format>]
+```
+
+| Segment | Meaning | Examples |
+| ------- | ------- | -------- |
+| `family` | The model family. Left out for the core language models. | `speech`, `vision`, `guardian`, `switch` |
+| `version` | The release the model belongs to. | `4.2`, `5.0` |
+| `size` | Total number of parameters, in billions (`b`) or millions (`m`). | `3b`, `8b`, `30b`, `470m` |
+| `active` | For mixture-of-experts models, the number of parameters active for each token. | `a800m` |
+| `variant` | A different model within the same family and size. | `turboctc` (faster speech architecture), `nc` (non-commercial license) |
+| `format` | The same weights in another file format or precision. | `GGUF` (llama.cpp, Ollama), `fp8`, `mxfp4`, `nvfp4` (quantized GPU inference), `ONNX`, `mlx` (Apple Silicon, with its own precision such as `bf16-mlx` or `q4-mlx`) |
+
+Some examples:
+
+| Model name | How to read it |
+| ---------- | -------------- |
+| `granite-4.2-8b` | Language model, version 4.2, 8 billion parameters |
+| `granite-4.2-8b-GGUF` | The same model in GGUF format, for llama.cpp and Ollama |
+| `granite-4.2-3b-q4-mlx` | Granite 4.2 3B, 4-bit quantized for MLX on Apple Silicon |
+| `granite-speech-5.0-2b` | Speech model, version 5.0, 2 billion parameters |
+| `granite-speech-5.0-470m-turboctc-nc` | Speech model, version 5.0, 470 million parameters, TurboCTC architecture, non-commercial license |
+| `granite-3.1-3b-a800m-instruct` | Language model from an earlier release, 3 billion parameters with 800 million active per token |
+
+### Release-based names
+
+Embedding, Time Series, and Granite Libraries models are released on their own schedule. Instead of a version such as `4.2`, their names end with a release number: `r1`, `r2`, `r3`, and so on. The rest of the name describes the model, and can include a size, a language, or the model architecture.
+
+| Model name | How to read it |
+| ---------- | -------------- |
+| `granite-embedding-english-r2` | English embedding model, release 2 |
+| `granite-embedding-311m-multilingual-r2` | Multilingual embedding model, 311 million parameters, release 2 |
+| `granite-timeseries-ttm-r3` | TinyTimeMixer (TTM) time series model, release 3 |
+| `granitelib-rag-r1.0` | Granite Libraries adapters for RAG, release 1.0 |
+
+Granite Docling has neither a version nor a release number: `granite-docling-258M` is the Docling model with 258 million parameters.
+
+:::info[Other suffixes you may see]
+Older releases and preview models use some additional segments:
+
+- `base`: the pretrained model before instruction tuning, as in `granite-4.1-8b-base`. Models without `base` are instruction-tuned.
+- `instruct`: the instruction-tuned model, in releases before 4.0, as in `granite-3.1-3b-a800m-instruct`.
+- `preview`: an early release for feedback, which may change before general availability, as in `granite-switch-4.1-8b-preview`.
+- `plus`: a variant with additional features, as in `granite-speech-4.1-2b-plus`, which adds speaker labels and word-level timestamps.
+- `nar`: a non-autoregressive architecture for higher throughput, as in `granite-speech-4.1-2b-nar`.
+- `h`, and sizes named `micro`, `tiny`, or `small`: the hybrid Mamba-transformer architecture and size names used in Granite 4.0, as in `granite-4.0-h-tiny`.
+
+Check the model card for the exact meaning of a suffix.
+:::
+
+## Versions and older releases
+
+**Each family has its own version numbers.** Families are released on their own schedules, so version numbers don't line up across families. For example, the latest speech model is version 5.0 while the latest language models are version 4.2. A higher number in one family doesn't mean it's newer than a model in another family.
+
+**Versions tell you which models work together.** Some models are built on, or designed for, a specific version of another model. Granite Switch 4.1 is built on the Granite 4.1 language models. The Granite Libraries r1.0 adapters are trained for Granite 4.0 Micro and the Granite 4.1 language models, so use them with those base models. The model card lists the base models each model supports.
+
+**Older releases stay available.** These docs and the model selector focus on the latest models, but earlier releases remain on Hugging Face. Each has its own collection, for example [Granite 4.1](https://huggingface.co/collections/ibm-granite/granite-41-language-models-69d3b30986f23ed3d8597ff3), [Granite 4.0](https://huggingface.co/collections/ibm-granite/granite-40-language-models-6811a18b820ef362d9e5a82c), and [Granite 3.3](https://huggingface.co/collections/ibm-granite/granite-33-67f65d0cca24bcbd1d3a08e3). To find out what changed in a release, see [What's new](../whats-new.mdx).

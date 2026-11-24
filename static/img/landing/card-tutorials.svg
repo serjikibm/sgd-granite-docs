@@ -1,0 +1,57 @@
+<svg width="352" height="360" viewBox="0 0 352 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="IBM Granite Docs - Landing page">
+<g id="Container">
+<g id="Container_2">
+<g id="Link">
+<g id="Container:margin">
+<g id="Container_3" clip-path="url(#clip0_18_7077)">
+<g id="Image (Vision)">
+<g id="Clip path group">
+<mask id="mask0_18_7077" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="352" height="360">
+<g id="clip0_2375_334081">
+<path id="Vector" d="M352 0H0V360H352V0Z" fill="white"/>
+</g>
+</mask>
+<g mask="url(#mask0_18_7077)">
+<g id="4">
+<path id="Vector_4" d="M317.554 89.1465H169.092V269.726H317.554V89.1465Z" fill="black"/>
+<path id="Vector_5" d="M198.979 208.207H291.825" stroke-width="1.33333" stroke-miterlimit="10" stroke-linecap="round" stroke="white"/>
+<path id="Vector_6" d="M198.979 220.254H291.825" stroke-width="1.33333" stroke-miterlimit="10" stroke-linecap="round" stroke="white"/>
+<path id="Vector_7" d="M198.979 232.297H245.401" stroke-width="1.33333" stroke-miterlimit="10" stroke-linecap="round" stroke="white"/>
+<path id="Vector_12" d="M169.092 89.1465L30.2888 136.614V222.258L169.092 269.726" fill="#4EA1FF"/>
+<g id="Play tile">
+<path id="Black outer square" d="M115.933 136.615H30.2888V222.26H115.933V136.615Z" fill="black"/>
+<rect id="White inset square" x="44.2058" y="150.533" width="57.81" height="57.81" fill="white"/>
+<path id="Play icon" d="M62.9858 165.588V193.289L87.2501 179.438L62.9858 165.588Z" fill="black"/>
+</g>
+<g id="Community users on white">
+<rect width="92.8462" height="76.9462" transform="translate(198.979 116.543)" fill="white"/>
+<g id="User left">
+<path id="Shoulders" d="M207.008 174.085V167.887C207.008 162.464 211.19 159.365 217.044 159.365C222.899 159.365 227.081 162.464 227.081 167.887V174.085H207.008Z" fill="black" stroke-width="1.3" stroke-linejoin="round" stroke="black"/>
+<path id="Head" d="M217.044 156.69C220.37 156.69 223.066 153.544 223.066 149.664C223.066 145.784 220.37 142.639 217.044 142.639C213.719 142.639 211.022 145.784 211.022 149.664C211.022 153.544 213.719 156.69 217.044 156.69Z" fill="black" stroke-width="1.3" stroke="black"/>
+</g>
+<g id="User center">
+<path id="Shoulders_2" d="M233.437 174.086V164.719C233.437 158.474 238.57 155.352 245.414 155.352C252.258 155.352 257.391 158.474 257.391 164.719V174.086H233.437Z" fill="black" stroke-width="1.3" stroke-linejoin="round" stroke="black"/>
+<path id="Head_2" d="M245.414 151.337C249.109 151.337 252.105 147.892 252.105 143.642C252.105 139.392 249.109 135.947 245.414 135.947C241.719 135.947 238.723 139.392 238.723 143.642C238.723 147.892 241.719 151.337 245.414 151.337Z" fill="black" stroke-width="1.3" stroke="black"/>
+</g>
+<g id="User right">
+<path id="Shoulders_3" d="M263.747 174.085V167.887C263.747 162.464 267.929 159.365 273.784 159.365C279.638 159.365 283.82 162.464 283.82 167.887V174.085H263.747Z" fill="black" stroke-width="1.3" stroke-linejoin="round" stroke="black"/>
+<path id="Head_3" d="M273.784 156.69C277.109 156.69 279.805 153.544 279.805 149.664C279.805 145.784 277.109 142.639 273.784 142.639C270.458 142.639 267.762 145.784 267.762 149.664C267.762 153.544 270.458 156.69 273.784 156.69Z" fill="black" stroke-width="1.3" stroke="black"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_18_7077">
+<rect width="352" height="480" fill="white" transform="translate(0 -60)"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,19 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+.avatar {
+  display: block;
+  flex-shrink: 0;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--avatar-size) * 0.38);
+  font-weight: 600;
+  letter-spacing: 0.32px;
+  color: #ffffff;
+}

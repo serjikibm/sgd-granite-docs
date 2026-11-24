@@ -1,0 +1,152 @@
+---
+sidebar_position: 2
+title: Verify model signatures
+description: Confirm that a Granite model you downloaded is exactly what IBM published.
+---
+
+import Signing from '../_generated/signing.mdx';
+
+# Verify model signatures
+
+:::note[Draft content]
+This page is draft content for review. It replaces the [signature verification page](https://www.ibm.com/granite/docs/model-standards/signature-verification) on the previous docs site.
+:::
+
+:::caution[Experimental]
+Model signing is an experimental feature under active development, and may include breaking changes.
+:::
+
+IBM signs Granite models using the [OpenSSF model signing](https://github.com/sigstore/model-transparency) standard. A signed model's repository on Hugging Face includes a `model.sig` file, which records a hash of every file in the repository and is signed by IBM. Verifying the signature confirms two things:
+
+- **Integrity:** no file has been changed, added, or removed since IBM signed the model.
+- **Origin:** the model was signed by IBM.
+
+Granite models are signed with one of two methods, **Sigstore** or **certificate**. The commands are different, so first check which method your model uses.
+
+## Before you begin
+
+1. Install the `model-signing` tool. It requires Python 3.9 or later.
+
+   ```bash
+   pip install model-signing
+   ```
+
+2. Download the **complete** model repository. The signature covers every file, including `README.md` and images, so a partial download fails verification. For example, with the [Hugging Face CLI](https://huggingface.co/docs/huggingface_hub/guides/cli):
+
+   ```bash
+   hf download ibm-granite/granite-4.2-3b --local-dir granite-4.2-3b
+   cd granite-4.2-3b
+   ```
+
+   If you clone with git instead, also run `git lfs pull` so the model files are downloaded, not just their pointers.
+
+3. Don't add, remove, or edit files in the folder before you verify it.
+
+## Find the signing method for your model
+
+Check the signature file. If it contains a certificate chain, the model is certificate-signed. Otherwise, it's Sigstore-signed.
+
+```bash
+grep -q x509CertificateChain model.sig && echo "certificate" || echo "sigstore"
+```
+
+On Windows PowerShell, use `Select-String x509CertificateChain model.sig`: any output means certificate-signed.
+
+If the repository has no `model.sig` file, the model isn't signed.
+
+:::info[Variants are signed separately]
+Each repository is signed on its own. A quantized variant, such as `-GGUF` or `-fp8`, can use a different method from its main model, or not be signed at all. Always check the `model.sig` in the repository you downloaded.
+:::
+
+<details>
+<summary>Signing method of each model's main repository</summary>
+
+<Signing />
+
+</details>
+
+## Verify a Sigstore-signed model
+
+Run this command in the model folder:
+
+```bash
+model_signing verify sigstore \
+  --signature model.sig \
+  --ignore-paths .cache \
+  --identity Granite-sign@ibm.com \
+  --identity_provider https://sigstore.verify.ibm.com/oauth2 \
+  .
+```
+
+- `--identity` and `--identity_provider` check that the model was signed by IBM's Granite signing identity.
+- `--ignore-paths .cache` skips the cache folder that the Hugging Face CLI creates. You can leave it in for other download methods.
+
+A successful verification ends with:
+
+```text
+Verification succeeded
+```
+
+Before that line, you might also see `Key ... failed to verify root`. This message comes from Sigstore updating its trust data, and isn't an error.
+
+## Verify a certificate-signed model
+
+1. Download the DigiCert root certificate:
+
+   ```bash
+   curl https://cacerts.digicert.com/DigiCertTrustedRootG4.crt.pem -o DigiCertTrustedRootG4.crt.pem
+   ```
+
+2. Run this command in the model folder, using the path where you saved the certificate:
+
+   ```bash
+   model_signing verify certificate \
+     --signature model.sig \
+     --ignore-paths .cache \
+     --log_fingerprints \
+     --certificate_chain /path/to/DigiCertTrustedRootG4.crt.pem \
+     .
+   ```
+
+   Here, `--ignore-paths .cache` is required if you downloaded with the Hugging Face CLI. The signatures for some certificate-signed models don't exclude the CLI's cache folder.
+
+3. Check the output. A successful verification shows these three certificate fingerprints, followed by `Verification succeeded`:
+
+   ```text
+   [  init  ] sha256 Fingerprint: 55:2F:7B:DC:F1:A7:AF:9E:6C:E6:72:01:7F:4F:12:AB:F7:72:40:C7:8E:76:1A:C2:03:D1:D9:D2:0A:C8:99:88
+   [ verify ] sha256 Fingerprint: 46:01:1E:DE:1C:14:7E:B2:BC:73:1A:53:9B:7C:04:7B:7E:E9:3E:48:B9:D3:C3:BA:71:0C:E1:32:BB:DF:AC:6B
+   [ verify ] sha256 Fingerprint: F2:9F:3F:0F:7E:95:41:60:14:69:D8:E6:44:9C:93:54:43:A0:BA:91:89:57:EE:49:CA:FC:64:AD:6E:1D:96:02
+   Verification succeeded
+   ```
+
+   The fingerprints identify, in order, the DigiCert root certificate, DigiCert's code signing certificate, and IBM's signing certificate. If any fingerprint is different, don't use the model.
+
+:::note
+IBM's current signing certificate expires on November 1, 2027. Models signed after it's renewed will show a different last fingerprint, and this page will be updated.
+:::
+
+## Verify a Granite Libraries adapter
+
+[Granite Libraries](../concepts/adapters-and-composition.mdx#granite-libraries) repositories are signed per adapter rather than as a whole. Each adapter folder, for example `decision/granite-4.1-8b/lora/`, has its own `model.sig` that covers the files in that folder.
+
+1. Download the adapter you want:
+
+   ```bash
+   hf download ibm-granite/granitelib-core-r1.0 \
+     --include "decision/granite-4.1-8b/lora/*" \
+     --local-dir granitelib-core-r1.0
+   cd granitelib-core-r1.0/decision/granite-4.1-8b/lora
+   ```
+
+2. [Find the signing method](#find-the-signing-method-for-your-model) in that folder, and verify it with the matching command. Most adapters are Sigstore-signed. The decision adapters are certificate-signed.
+
+## Troubleshooting
+
+| Error | What it means | What to do |
+| ----- | ------------- | ---------- |
+| `Extra files found in model` | The folder has files that weren't signed. | If the file is in `.cache`, add `--ignore-paths .cache`. Otherwise, remove the files you added, or download the model again into an empty folder. |
+| `Missing files in model` | The download is incomplete. | Download the complete repository, not only the model weights. |
+| `Hash mismatch for '<file>'` | A file is different from the one IBM signed. | Download the model again. If you cloned with git, run `git lfs pull`. If it still fails, don't use the model. |
+| `Certificate's SANs do not match` | The signer identity in your command is wrong. | Use `--identity Granite-sign@ibm.com`. Earlier instructions used a different identity. |
+
+To learn more about the tool and its options, see the [model-signing documentation](https://sigstore.github.io/model-transparency).

@@ -1,0 +1,122 @@
+---
+sidebar_position: 3
+title: Get started with Granite models
+sidebar_label: Get started
+description: Run your first Granite model, then choose how to access Granite for your project.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Get started with Granite models
+
+:::note[Placeholder content]
+The Quickstart is draft content. The rest of this page contains placeholder text.
+:::
+
+## Quickstart
+
+Run [Granite 4.2 3B](https://huggingface.co/ibm-granite/granite-4.2-3b) on your own machine with [llama.cpp](https://github.com/ggml-org/llama.cpp). llama.cpp downloads the model from Hugging Face the first time you run it, and runs on CPU or GPU.
+
+This quickstart uses the `Q4_K_M` quantization from [granite-4.2-3b-GGUF](https://huggingface.co/ibm-granite/granite-4.2-3b-GGUF). It's a good balance of size and quality for a laptop. For the other quantizations, see [Variants and quantization](./concepts/variants-and-quantization.mdx).
+
+### 1. Install llama.cpp
+
+<Tabs groupId="operating-system">
+  <TabItem value="macos" label="macOS and Linux" default>
+
+```bash
+brew install llama.cpp
+```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+```powershell
+winget install llama.cpp
+```
+
+  </TabItem>
+</Tabs>
+
+You can also download a prebuilt binary from the [llama.cpp releases](https://github.com/ggml-org/llama.cpp/releases) page, or [build it from source](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md).
+
+:::tip[Using the llama app?]
+If you installed llama.cpp through the [llama app](https://llama.app), it provides a single `llama` command. Replace the dash with a space and keep the same arguments: `llama-cli` becomes `llama cli`, and `llama-server` becomes `llama serve`.
+:::
+
+### 2. Chat with the model
+
+```bash
+llama-cli -hf ibm-granite/granite-4.2-3b-GGUF:Q4_K_M --jinja --temp 1.0 --top-p 0.95
+```
+
+- `-hf` downloads the model from Hugging Face and caches it locally, so later runs start immediately.
+- `--jinja` uses the chat template embedded in the model, which Granite needs for chat, tool calling, and thinking. Recent llama.cpp versions turn this on by default; the flag keeps the command working on older versions.
+- `--temp 1.0 --top-p 0.95` are the sampling settings recommended on the [model card](https://huggingface.co/ibm-granite/granite-4.2-3b#generation-parameters).
+
+Type a prompt at the `>` prompt. Granite 4.2 reasons step by step inside `<think>…</think>` before giving its answer. Press `Ctrl+C` to exit.
+
+### 3. Optional: serve an OpenAI-compatible API
+
+To call the model from your own code, start `llama-server` instead:
+
+```bash
+llama-server -hf ibm-granite/granite-4.2-3b-GGUF:Q4_K_M --jinja --temp 1.0 --top-p 0.95 --port 8080
+```
+
+Then send a request from another terminal:
+
+```bash
+curl http://localhost:8080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [{"role": "user", "content": "What are three uses for a small language model?"}],
+    "chat_template_kwargs": {"enable_thinking": false}
+  }'
+```
+
+`"enable_thinking": false` turns off reasoning for a faster, direct answer. Leave it out to keep thinking on. For all thinking modes, see the [model card](https://huggingface.co/ibm-granite/granite-4.2-3b#thinking-modes).
+
+:::info[Not a chat model?]
+Speech, embedding, time series, and Docling models are used through their own libraries rather than a chat runtime. See the model card on Hugging Face for usage.
+:::
+
+## Ways to access Granite
+
+### Download from Hugging Face
+
+All Granite models are published on Hugging Face under the [ibm-granite](https://huggingface.co/ibm-granite) organization. To find a model, browse the [Granite collections](https://huggingface.co/collections/ibm-granite), which group models by family and release. Open the model you're interested in to download its weights and quantized variants, and to read its model card. The model card covers the model's capabilities, benchmarks, license, and detailed usage instructions.
+
+### Run locally
+
+You can run Granite models on your own machine with a local runtime such as:
+
+- **llama.cpp:** runs the GGUF variants published on Hugging Face. See the [Quickstart](#quickstart) above.
+- **Ollama:** find Granite models in the [Ollama library](https://ollama.com/search?q=granite), open the model you want, and follow the instructions on its page.
+
+### Self-host and serve
+
+To serve Granite models on your own infrastructure, use one of the serving frameworks documented on each model card. The model card has the server command, the reasoning and tool-calling parsers to use, and example requests for that model. For example, for Granite 4.2 3B:
+
+- **vLLM:** a high-throughput, OpenAI-compatible inference server. See [Serving with vLLM](https://huggingface.co/ibm-granite/granite-4.2-3b#serving-with-vllm).
+- **SGLang:** an alternative high-throughput serving framework. See [Serving with SGLang](https://huggingface.co/ibm-granite/granite-4.2-3b#serving-with-sglang).
+
+To experiment in Python without a server, use Hugging Face Transformers. The model card's example runs the model on an NVIDIA GPU with CUDA. See [Quick Start (Transformers)](https://huggingface.co/ibm-granite/granite-4.2-3b#quick-start-transformers).
+
+For other models, open the model card from the [Granite collections](https://huggingface.co/collections/ibm-granite) and look for the same sections.
+
+### Use a cloud provider
+
+To use Granite without running your own infrastructure, call a hosted model through a cloud provider's API. For example:
+
+- **OpenRouter:** access Granite through OpenRouter's OpenAI-compatible API, for example [Granite 4.2 8B on OpenRouter](https://openrouter.ai/ibm-granite/granite-4.2-8b).
+- **Replicate:** run Granite through Replicate's API or web playground, for example [Granite 4.2 8B on Replicate](https://replicate.com/ibm-granite/granite-4.2-8b).
+- **Hugging Face:** run models directly from their Hugging Face page through [Hugging Face Inference Providers](https://huggingface.co/docs/inference-providers). Open a model in the [Granite collections](https://huggingface.co/collections/ibm-granite) and use the **Deploy** or **Use this model** menu on its page. Available providers vary by model.
+
+Each provider's model page shows code samples, pricing, and the models it offers.
+
+## Next steps
+
+- [Concepts](./concepts/index.mdx): pick the right variant and understand model names.
+- [Verify model signatures](./trust/verify-signatures.mdx): confirm your download is authentic.

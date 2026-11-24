@@ -1,0 +1,41 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+.paginator {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-top: 3rem;
+  border-top: 1px solid var(--carbon-border-subtle);
+  border-bottom: 1px solid var(--carbon-border-subtle);
+}
+
+.side {
+  display: flex;
+}
+
+.side[data-end] {
+  justify-content: flex-end;
+}
+
+.status {
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--carbon-text-secondary);
+}
+
+/* Carbon ghost button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--ifm-link-color);
+}
+
+.button:hover {
+  background-color: var(--carbon-layer-hover);
+  text-decoration: none;
+}

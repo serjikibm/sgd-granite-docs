@@ -1,0 +1,125 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* Year on the left (sticky), its posts as structured list rows on the right */
+.year {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: 2rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--carbon-border-subtle);
+}
+
+.year:first-of-type {
+  padding-top: 0;
+}
+
+.yearLabel {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1.5rem);
+  align-self: start;
+}
+
+.yearTitle {
+  margin: 0;
+  font-size: 2.625rem;
+  font-weight: 300;
+  line-height: 3.125rem;
+}
+
+.yearCount {
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--carbon-text-secondary);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 13rem minmax(0, 1fr) 9rem;
+  align-items: baseline;
+  gap: 1rem;
+  margin: 0;
+  padding: 1rem;
+  border-top: 1px solid var(--carbon-border-subtle);
+  transition: background-color 110ms cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.row:first-child {
+  border-top: 0;
+}
+
+.row:hover {
+  background-color: var(--carbon-layer-hover);
+}
+
+.row:has(.title:focus-visible) {
+  outline: 2px solid var(--carbon-focus);
+  outline-offset: -2px;
+}
+
+.meta {
+  flex-wrap: nowrap;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.title {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  color: var(--ifm-heading-color);
+}
+
+.title:hover {
+  color: var(--ifm-heading-color);
+  text-decoration: none;
+}
+
+.title:focus-visible {
+  outline: none;
+}
+
+/* The whole row is the link */
+.title::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.category {
+  justify-self: end;
+  margin: 0;
+}
+
+@media (max-width: 996px) {
+  .year {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .yearLabel {
+    position: static;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 1rem 0;
+  }
+
+  .row:hover {
+    background-color: transparent;
+  }
+
+  .category {
+    justify-self: start;
+    order: -1;
+  }
+}

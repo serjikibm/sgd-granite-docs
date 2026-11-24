@@ -1,132 +1,784 @@
 /* SPDX-License-Identifier: Apache-2.0 */
-/* IBM Plex @font-face declarations are injected via headTags in docusaurus.config.ts
-   so that the font paths are prefixed with the correct baseUrl at build time. */
+/**
+ * Carbon Design System look and feel for Docusaurus (Infima).
+ * Tokens follow the Carbon "White" theme (light) and "Gray 100" theme (dark).
+ * https://carbondesignsystem.com/elements/color/tokens/
+ */
 
+@import '@fontsource/ibm-plex-sans/300.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/400-italic.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/600.css';
 
 :root {
-  --ifm-color-primary: #000000;
-  --ifm-color-primary-dark: #1a1a1a;
-  --ifm-color-primary-darker: #2b2b2b;
-  --ifm-color-primary-darkest: #404040;
-  --ifm-color-primary-light: #333333;
-  --ifm-color-primary-lighter: #4d4d4d;
-  --ifm-color-primary-lightest: #666666;
-  --ifm-font-family-base: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
-  --ifm-font-family-monospace: 'IBM Plex Mono', 'SFMono-Regular', monospace;
-  --ifm-h1-font-size: 1.75rem;
-  --ifm-h2-font-size: 1.375rem;
-  --ifm-heading-font-weight: 600;
-  --ifm-code-font-size: 90%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
-}
+  /* Typography */
+  --ifm-font-family-base: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  --ifm-font-family-monospace: 'IBM Plex Mono', Menlo, Courier, monospace;
+  --ifm-font-size-base: 100%;
+  --ifm-line-height-base: 1.5;
+  --ifm-heading-font-weight: 400;
+  --ifm-font-weight-semibold: 600;
+  --ifm-code-font-size: 87.5%;
 
+  /* Shape: Carbon uses square corners */
+  --ifm-global-radius: 0;
+  --ifm-code-border-radius: 0;
+  --ifm-button-border-radius: 0;
+  --ifm-pre-border-radius: 0;
+  --ifm-alert-border-radius: 0;
+  --ifm-card-border-radius: 0;
+  --ifm-global-shadow-lw: none;
+  --ifm-global-shadow-md: none;
+  --ifm-global-shadow-tl: none;
+
+  /* Color: blue 60 as the interactive color */
+  --ifm-color-primary: #0f62fe;
+  --ifm-color-primary-dark: #0353e9;
+  --ifm-color-primary-darker: #0043ce;
+  --ifm-color-primary-darkest: #002d9c;
+  --ifm-color-primary-light: #4589ff;
+  --ifm-color-primary-lighter: #78a9ff;
+  --ifm-color-primary-lightest: #a6c8ff;
+  --ifm-link-color: #0f62fe;
+  --ifm-link-hover-color: #0043ce;
+  --ifm-link-hover-decoration: underline;
+
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-font-color-base: #161616;
+  --ifm-heading-color: #161616;
+  --ifm-color-content-secondary: #525252;
+  --ifm-color-emphasis-100: #f4f4f4;
+  --ifm-color-emphasis-200: #e8e8e8;
+  --ifm-color-emphasis-300: #e0e0e0;
+  --ifm-color-emphasis-500: #8d8d8d;
+  --ifm-toc-border-color: #e0e0e0;
+  --ifm-hr-border-color: #e0e0e0;
+
+  /* Carbon UI shell header: 48px, White theme */
+  --ifm-navbar-height: 3rem;
+  --ifm-navbar-padding-vertical: 0;
+  --ifm-navbar-padding-horizontal: 0.5rem;
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-navbar-link-color: #525252;
+  --ifm-navbar-link-hover-color: #161616;
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-search-input-background-color: #f4f4f4;
+  --carbon-header-text: #161616;
+  --carbon-header-border: #e0e0e0;
+  --carbon-header-hover: #e8e8e8;
+  --carbon-header-active: #0f62fe;
+
+  /* Footer (IBM footer: black) */
+  --ifm-footer-background-color: #000000;
+  --ifm-footer-color: #c1c7cd;
+  --ifm-footer-title-color: #ffffff;
+  --ifm-footer-link-color: #c1c7cd;
+  --ifm-footer-link-hover-color: #ffffff;
+
+  /* Menu (side nav) */
+  --ifm-menu-color: #161616;
+  --ifm-menu-color-background-hover: #e8e8e8;
+  --ifm-menu-color-background-active: #e0e0e0;
+  --ifm-menu-color-active: #161616;
+
+  /* Code */
+  --prism-background-color: #f4f4f4;
+  --prism-color: #161616;
+  --docusaurus-highlighted-code-line-bg: rgba(15, 98, 254, 0.1);
+
+  --carbon-focus: #0f62fe;
+  --carbon-layer: #f4f4f4;
+  --carbon-layer-hover: #e8e8e8;
+  --carbon-border-subtle: #e0e0e0;
+  --carbon-text-secondary: #525252;
+}
 
 [data-theme='dark'] {
-  --ifm-color-primary: #c5c5c5;
-  --ifm-color-primary-dark: #b0b0b0;
-  --ifm-color-primary-darker: #a0a0a0;
-  --ifm-color-primary-darkest: #888888;
-  --ifm-color-primary-light: #d4d4d4;
-  --ifm-color-primary-lighter: #e0e0e0;
-  --ifm-color-primary-lightest: #f0f0f0;
-  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.1);
+  --ifm-color-primary: #78a9ff;
+  --ifm-color-primary-dark: #5b97ff;
+  --ifm-color-primary-darker: #4589ff;
+  --ifm-color-primary-darkest: #0f62fe;
+  --ifm-color-primary-light: #a6c8ff;
+  --ifm-color-primary-lighter: #bed6ff;
+  --ifm-color-primary-lightest: #d0e2ff;
+  --ifm-link-color: #78a9ff;
+  --ifm-link-hover-color: #a6c8ff;
+
+  --ifm-background-color: #161616;
+  --ifm-background-surface-color: #161616;
+  --ifm-font-color-base: #f4f4f4;
+  --ifm-heading-color: #f4f4f4;
+  --ifm-color-content-secondary: #c6c6c6;
+  --ifm-color-emphasis-100: #262626;
+  --ifm-color-emphasis-200: #333333;
+  --ifm-color-emphasis-300: #393939;
+  --ifm-color-emphasis-500: #6f6f6f;
+  --ifm-toc-border-color: #393939;
+  --ifm-hr-border-color: #393939;
+
+  --ifm-navbar-background-color: #161616;
+  --ifm-navbar-link-color: #c6c6c6;
+  --ifm-navbar-link-hover-color: #f4f4f4;
+  --ifm-navbar-search-input-background-color: #262626;
+  --carbon-header-text: #f4f4f4;
+  --carbon-header-border: #393939;
+  --carbon-header-hover: #333333;
+  --carbon-header-active: #ffffff;
+
+  --ifm-menu-color: #f4f4f4;
+  --ifm-menu-color-background-hover: #333333;
+  --ifm-menu-color-background-active: #393939;
+  --ifm-menu-color-active: #f4f4f4;
+
+  --prism-background-color: #262626;
+  --prism-color: #f4f4f4;
+  --docusaurus-highlighted-code-line-bg: rgba(120, 169, 255, 0.2);
+
+  --carbon-focus: #ffffff;
+  --carbon-layer: #262626;
+  --carbon-layer-hover: #333333;
+  --carbon-border-subtle: #393939;
+  --carbon-text-secondary: #c6c6c6;
 }
 
-/* Navbar: full-black text for maximum contrast (Infima defaults to #1c1e21) */
-.navbar__link {
-  color: #000000;
-  font-weight: 500;
+/* ---------- Global ---------- */
+
+:focus-visible {
+  outline: 2px solid var(--carbon-focus);
+  outline-offset: -2px;
 }
 
-.navbar__link:hover,
-.navbar__link--active {
-  color: #000000;
+.markdown a:not(.button) {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
 }
 
-/* Download Granite navbar button */
-.navbar-download-btn {
-  border: 1px solid var(--ifm-color-primary);
-  border-radius: 4px;
-  padding: 0.3rem 0.8rem !important;
-  font-weight: 500;
+.markdown a:not(.button):hover {
+  text-decoration-color: currentColor;
 }
 
-[data-theme='dark'] .navbar-download-btn {
-  border-color: var(--ifm-color-primary);
+/* Headings: Carbon productive type scale */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.25;
 }
 
-/* Accordion (details/summary) styling */
-.granite-accordion {
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  overflow: hidden;
+h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.29;
 }
 
-.granite-accordion summary {
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  font-weight: 500;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+h3 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
-.granite-accordion summary::-webkit-details-marker {
-  display: none;
+.markdown h2 {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--carbon-border-subtle);
 }
 
-.granite-accordion summary::before {
-  content: '▶';
-  font-size: 0.65em;
-  transition: transform 0.15s;
+.markdown h1 + h2,
+.markdown > h2:first-child {
+  margin-top: 2rem;
+}
+
+/* ---------- Header (UI shell) ---------- */
+
+.navbar {
+  border-bottom: 1px solid var(--carbon-header-border);
+}
+
+.navbar__inner {
+  height: 100%;
+}
+
+/* Site name: "IBM" regular + "Granite Docs" semibold, then a divider */
+.navbar__brand {
+  height: var(--ifm-navbar-height);
+  margin-right: 0;
+  padding-left: 0.5rem;
+  color: var(--carbon-header-text);
+}
+
+.navbar__brand::after {
+  content: '';
+  display: block;
   flex-shrink: 0;
+  width: 17px;
+  height: 48px;
+  margin-left: 2rem;
+  background: url('/img/landing/divider.svg') no-repeat;
 }
 
-.granite-accordion[open] summary::before {
-  transform: rotate(90deg);
+.navbar__brand:hover {
+  color: var(--carbon-header-text);
+  text-decoration: none;
 }
 
-.granite-accordion .granite-accordion-body {
-  padding: 0 1rem 1rem;
-}
-
-.granite-accordion-group {
-  margin-bottom: 1rem;
-}
-
-/* Footer: override hover to white on dark background (Infima defaults to --ifm-color-primary = black) */
-.footer__link-item:hover {
-  color: #ffffff;
-}
-
-/* Sidebar nav: match Mintlify sizing — smaller text, bold section headings, normal leaf items */
-.menu__link {
+.navbar__title {
+  white-space: nowrap;
   font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.125rem;
+  letter-spacing: 0.16px;
+}
+
+.navbar__title::before {
+  content: 'IBM ';
   font-weight: 400;
 }
 
-/* Category headings (Introduction, Models, Run Granite…) — bold */
-.menu__link--sublist {
+.navbar__item {
+  padding: 0;
+}
+
+.navbar__link {
+  height: var(--ifm-navbar-height);
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.125rem;
+  letter-spacing: 0.16px;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid transparent;
+}
+
+.navbar__link:hover {
+  background-color: var(--carbon-header-hover);
+  text-decoration: none;
+}
+
+.navbar__link--active {
+  border-bottom-color: var(--carbon-header-active);
+  color: var(--carbon-header-text);
+}
+
+/* Desktop only: below 996px Infima hides .navbar__item, and a display value
+   here would override that. */
+@media (min-width: 997px) {
+  .navbar__link {
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* External links (GitHub): Carbon arrow-up-right instead of the default icon */
+.navbar__items--right .navbar__link svg {
+  display: none;
+}
+
+.navbar__items--right .navbar__link[href^='http']::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  margin-left: 0.5rem;
+  background-color: currentColor;
+  mask: url('/img/landing/arrow-up-right.svg') no-repeat center / contain;
+}
+
+/* The brand divider only separates it from the desktop nav items */
+@media (max-width: 996px) {
+  .navbar__brand::after {
+    display: none;
+  }
+}
+
+.navbar .clean-btn,
+.navbar__toggle {
+  color: var(--carbon-header-text);
+}
+
+.navbar .clean-btn:hover {
+  background-color: var(--carbon-header-hover);
+}
+
+.navbar-sidebar {
+  background-color: var(--ifm-navbar-background-color);
+}
+
+.navbar-sidebar .menu__link {
+  color: var(--carbon-header-text);
+}
+
+/* ---------- Side nav ---------- */
+
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--carbon-border-subtle) !important;
+}
+
+.menu {
+  padding: 1rem 0 !important;
+}
+
+.menu__list-item:not(:first-child) {
+  margin-top: 0;
+}
+
+.menu__link {
+  min-height: 2rem;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  border-radius: 0;
+  border-left: 3px solid transparent;
+}
+
+.menu__link--active {
+  border-left-color: var(--ifm-color-primary);
   font-weight: 600;
 }
 
-/* TOC active-heading accent */
+.menu__link--active:not(.menu__link--sublist) {
+  background-color: var(--ifm-menu-color-background-active);
+}
+
+.menu__list .menu__list .menu__link {
+  padding-left: 2rem;
+}
+
+.menu__list-item-collapsible {
+  border-radius: 0;
+}
+
+/* ---------- Content ---------- */
+
+.theme-doc-markdown {
+  max-width: 50rem;
+}
+
+.theme-doc-breadcrumbs .breadcrumbs__link {
+  border-radius: 0;
+  font-size: 0.875rem;
+}
+
 .table-of-contents__link--active {
   font-weight: 600;
-  border-left: 2px solid var(--ifm-color-primary);
-  padding-left: 0.5rem;
-  margin-left: -0.5rem;
 }
 
-/* Sunset announcement bar — ensure links stay readable on the amber background */
-.theme-announcement-bar {
-  font-weight: 500;
-  border-bottom: 1px solid #e0c200;
+/* Tables: Carbon data table */
+.markdown table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  border: 0;
 }
-.theme-announcement-bar a {
-  color: inherit;
+
+/* Narrow screens: wide tables scroll sideways instead of widening the page
+   (display: table above turns off Infima's built-in table scrolling). */
+@media (max-width: 996px) {
+  .markdown table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+.markdown table thead tr,
+.markdown table tr {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--carbon-border-subtle);
+}
+
+.markdown table tr:nth-child(2n) {
+  background-color: transparent;
+}
+
+.markdown table th {
+  padding: 0.75rem 1rem;
+  background-color: #e0e0e0;
+  border: 0;
+  color: #161616;
+  font-weight: 600;
+  text-align: left;
+}
+
+[data-theme='dark'] .markdown table th {
+  background-color: #393939;
+  color: #f4f4f4;
+}
+
+.markdown table td {
+  padding: 0.75rem 1rem;
+  border: 0;
+  vertical-align: top;
+}
+
+.markdown table tbody tr:hover {
+  background-color: var(--carbon-layer-hover);
+}
+
+/* Code */
+code {
+  border: 0;
+  background-color: var(--carbon-layer);
+  padding: 0.1rem 0.3rem;
+}
+
+pre code {
+  background-color: transparent;
+}
+
+div[class*='codeBlockContainer'] {
+  box-shadow: none;
+  border-bottom: 1px solid var(--carbon-border-subtle);
+}
+
+/* Admonitions: Carbon inline notification */
+.theme-admonition {
+  border: 0;
+  border-left: 3px solid var(--ifm-alert-border-color);
+  box-shadow: none;
+  background-color: var(--carbon-layer);
+}
+
+.theme-admonition-note {
+  --ifm-alert-border-color: #0f62fe;
+  background-color: #edf5ff;
+}
+
+[data-theme='dark'] .theme-admonition-note {
+  --ifm-alert-border-color: #78a9ff;
+  background-color: #262626;
+}
+
+/* Pagination */
+.pagination-nav__link {
+  border: 1px solid var(--carbon-border-subtle);
+  border-radius: 0;
+  background-color: var(--carbon-layer);
+}
+
+.pagination-nav__link:hover {
+  background-color: var(--carbon-layer-hover);
+  border-color: var(--carbon-border-subtle);
+  text-decoration: none;
+}
+
+.pagination-nav__label {
+  color: var(--ifm-link-color);
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.16px;
+  border: 1px solid transparent;
+  padding: 0.875rem 4rem 0.875rem 1rem;
+  position: relative;
+  text-align: left;
+  min-width: 12rem;
+}
+
+.button::after {
+  content: '→';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.button--primary {
+  background-color: #0f62fe;
+  border-color: #0f62fe;
+  color: #ffffff;
+}
+
+.button--primary:hover {
+  background-color: #0050e6;
+  border-color: #0050e6;
+  color: #ffffff;
+}
+
+.button--primary:active {
+  background-color: #002d9c;
+  border-color: #002d9c;
+}
+
+.button--secondary {
+  background-color: #393939;
+  border-color: #393939;
+  color: #ffffff;
+}
+
+.button--secondary:hover {
+  background-color: #4c4c4c;
+  border-color: #4c4c4c;
+  color: #ffffff;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  padding: 3rem 0 8rem;
+  font-size: 0.875rem;
+}
+
+/* Infima re-declares the footer variables on .footer--dark, so override them here. */
+.footer--dark {
+  --ifm-footer-background-color: #000000;
+  --ifm-footer-link-color: #c1c7cd;
+  --ifm-footer-title-color: #ffffff;
+}
+
+.footer .container {
+  max-width: none;
+  padding: 0 2.5rem;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: flex-start;
+}
+
+.footer__brand {
+  flex: 0 0 24rem; /* links start 424px from the left edge */
+}
+
+.footer__brand a {
+  display: inline-block;
+  opacity: 1;
+}
+
+.footer__logo {
+  vertical-align: top;
+  max-width: none;
+  margin: 0;
+}
+
+.footer__links {
+  flex: 1;
+  gap: 2rem;
+  margin: 0;
+}
+
+.footer__col {
+  flex: 0 0 22rem; /* 352px */
+  max-width: 22rem;
+  padding: 0 1rem 3rem 0;
+}
+
+.footer__title {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  letter-spacing: 0.16px;
+}
+
+.footer__items {
+  padding-top: 0.5rem;
+}
+
+.footer__item {
+  margin-top: 0.5rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.16px;
+}
+
+.footer__item:first-child {
+  margin-top: 0;
+}
+
+.footer__link-item {
+  line-height: 1.25rem;
+}
+
+.footer__link-item svg {
+  display: none;
+}
+
+.footer__link-item:hover {
+  text-decoration: none;
+}
+
+.footer__bottom {
+  margin-top: 2rem;
+}
+
+.footer__copyright {
+  color: #8d8d8d;
+}
+
+@media screen and (max-width: 996px) {
+  .footer {
+    padding: 2rem 0 4rem;
+  }
+
+  .footer .container {
+    padding: 0 1rem;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .footer__brand {
+    flex-basis: auto;
+  }
+
+  .footer__col {
+    flex-basis: 100%;
+    max-width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* ---------- Search (@easyops-cn/docusaurus-search-local) ----------
+   Carbon search field in the header, a Carbon menu-style results dropdown,
+   and Carbon inputs on the /search page. The plugin's CSS modules hash their
+   class names, so these match on [class*='…'] and use the plugin's own
+   --search-local-* variables where it has them. */
+
+:root {
+  --search-local-modal-background: var(--ifm-background-color);
+  --search-local-modal-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --search-local-modal-width: 560px;
+  --search-local-spacing: 0;
+  --search-local-hit-background: transparent;
+  --search-local-hit-shadow: none;
+  --search-local-hit-color: var(--ifm-font-color-base);
+  --search-local-hit-height: 48px;
+  --search-local-muted-color: var(--carbon-text-secondary);
+  --search-local-hit-active-color: var(--ifm-font-color-base);
+  /* Used by the plugin both for the selected row and for matched text */
+  --search-local-highlight-color: var(--ifm-font-color-base);
+  --search-local-input-active-border-color: var(--carbon-focus);
+}
+
+[data-theme='dark'] {
+  /* Carbon Gray 100: menus sit on layer-01 */
+  --search-local-modal-background: var(--carbon-layer);
+  --search-local-modal-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Header field: square, full-height Carbon search */
+.navbar__search-input {
+  height: 2.5rem;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-500);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--ifm-font-color-base);
+}
+
+.navbar__search-input::placeholder {
+  color: var(--carbon-text-secondary);
+}
+
+.navbar__search-input:focus {
+  outline: 2px solid var(--carbon-focus);
+  outline-offset: -2px;
+  border-bottom-color: transparent;
+}
+
+/* Results dropdown: square Carbon menu */
+.navbar__search [class*='dropdownMenu'] {
+  border-radius: 0 !important;
+  margin-top: 4px !important;
+  padding: 0.5rem 0 !important;
+}
+
+.navbar__search [class*='dropdownMenu'] [class*='suggestion'] {
+  border-radius: 0;
+  margin-bottom: 0 !important;
+  padding: 0 1rem !important;
+}
+
+.navbar__search [class*='dropdownMenu'] [class*='suggestion']:hover,
+.navbar__search [class*='dropdownMenu'] [class*='suggestion'][class*='cursor'] {
+  background-color: var(--carbon-layer-hover) !important;
+}
+
+[data-theme='dark'] .navbar__search [class*='dropdownMenu'] [class*='suggestion']:hover,
+[data-theme='dark'] .navbar__search [class*='dropdownMenu'] [class*='suggestion'][class*='cursor'] {
+  background-color: #4c4c4c !important; /* Carbon g100 layer-hover-01 */
+}
+
+/* Matched text: semibold instead of a color, and no underline on the
+   selected row */
+.navbar__search [class*='hitWrapper'] mark {
+  color: inherit !important;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.navbar__search [class*='hitWrapper'] {
+  font-weight: 400;
+}
+
+.navbar__search [class*='hitTitle'] {
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+}
+
+.navbar__search [class*='hitPath'] {
+  font-size: 0.75rem;
+  letter-spacing: 0.32px;
+}
+
+.navbar__search [class*='hitFooter'] {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem 0;
+  border-top: 1px solid var(--carbon-border-subtle);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.navbar__search [class*='hitFooter'] a {
+  color: var(--ifm-link-color);
+  text-decoration: none;
+}
+
+.navbar__search [class*='hitFooter'] a:hover {
   text-decoration: underline;
-  font-weight: 700;
+}
+
+/* /search page: Carbon text inputs and result list */
+[class*='searchQueryInput'],
+[class*='searchContextInput'] {
+  height: 2.5rem;
+  border-radius: 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ifm-color-emphasis-500) !important;
+  background: var(--carbon-layer) !important;
+  padding: 0 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+[class*='searchQueryInput']:focus,
+[class*='searchContextInput']:focus {
+  outline: 2px solid var(--carbon-focus);
+  outline-offset: -2px;
+}
+
+[class*='searchResultItem_'] {
+  border-bottom-color: var(--carbon-border-subtle) !important;
+}
+
+[class*='searchResultItemSummary'] {
+  font-style: normal !important;
+  color: var(--carbon-text-secondary);
+}
+
+/* /search page: matched text in semibold, as in the dropdown, not yellow */
+[class*='searchResultItem_'] mark {
+  background: none;
+  color: inherit;
+  font-weight: 600;
 }

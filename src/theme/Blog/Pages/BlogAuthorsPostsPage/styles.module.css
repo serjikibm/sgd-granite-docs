@@ -1,0 +1,49 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.role {
+  display: block;
+}
+
+.bio {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--carbon-border-subtle);
+  border-bottom: 1px solid var(--carbon-border-subtle);
+  font-size: 0.875rem;
+  letter-spacing: 0.16px;
+  color: var(--carbon-text-secondary);
+}
+
+.socials {
+  --docusaurus-blog-social-icon-size: 1.25rem;
+  color: var(--carbon-text-secondary);
+}
+
+.socials a {
+  color: inherit;
+}
+
+.socials a:hover {
+  color: var(--ifm-font-color-base);
+}
+
+@media (max-width: 996px) {
+  .titleRow {
+    gap: 1rem;
+  }
+}

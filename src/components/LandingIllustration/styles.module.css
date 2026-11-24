@@ -1,0 +1,61 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/**
+ * Hover state, from the Granite Playground demo cards: the parent sets
+ * `--illustration-active: 1` (default 0).
+ *   Zoom:  scale(1.06), 0.6s cubic-bezier(0.22, 1, 0.36, 1)
+ *   Color: hue-rotate(var(--demo-hue)) saturate(1.5) brightness(0.98), 0.4s ease
+ */
+.scene {
+  --demo-hue-blue: 100deg;
+  --demo-hue-green: -80deg;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 352 / 480;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #f2f4f8; /* cool gray 10, never filtered */
+}
+
+.artwork {
+  position: absolute;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(calc(1 + 0.06 * var(--illustration-active, 0)));
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+
+/* Split layer: the artwork's visible green shapes, as a solid green fill */
+.accent {
+  position: absolute;
+  inset: 0;
+  background-color: #6cff8f;
+  pointer-events: none;
+  -webkit-mask: var(--accent-mask) center / 100% 100% no-repeat;
+  mask: var(--accent-mask) center / 100% 100% no-repeat;
+}
+
+/* The layer that takes the color shift */
+.shift {
+  filter: hue-rotate(calc(var(--demo-hue) * var(--illustration-active, 0)))
+    saturate(calc(1 + 0.5 * var(--illustration-active, 0)))
+    brightness(calc(1 - 0.02 * var(--illustration-active, 0)));
+  transition: filter 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artwork,
+  .shift {
+    transition: none;
+  }
+
+  .artwork {
+    transform: none;
+  }
+}

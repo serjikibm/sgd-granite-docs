@@ -5,37 +5,40 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
+    "models:sync": "cp \"${MODEL_DATA_DIR:-../../../ghe/granite/model-selector/data}/models.json\" data/models.json && cp \"${MODEL_DATA_DIR:-../../../ghe/granite/model-selector/data}/model-sources.json\" data/model-sources.json",
+    "models:generate": "node scripts/generate-models.mjs",
+    "prestart": "npm run models:generate",
     "start": "docusaurus start",
+    "prebuild": "npm run models:generate",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typecheck": "tsc"
   },
   "dependencies": {
-    "@docusaurus/core": "^3.10.0",
-    "@docusaurus/plugin-client-redirects": "^3.10.0",
-    "@docusaurus/plugin-content-docs": "^3.10.0",
-    "@docusaurus/preset-classic": "^3.10.0",
-    "@easyops-cn/docusaurus-search-local": "^0.44.4",
-    "@fortawesome/free-brands-svg-icons": "^7.2.0",
-    "@fortawesome/free-solid-svg-icons": "^7.2.0",
-    "@fortawesome/react-fontawesome": "^3.3.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/plugin-client-redirects": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.3",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
-    "lucide-react": "^0.511.0",
     "prism-react-renderer": "^2.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^3.10.0",
-    "@docusaurus/tsconfig": "^3.10.0",
-    "@docusaurus/types": "^3.10.0",
-    "@ibm/plex": "^6.4.1",
-    "@types/node": "^25.9.1",
-    "typescript": "~5.6.2"
+    "@docusaurus/module-type-aliases": "3.10.2",
+    "@docusaurus/tsconfig": "3.10.2",
+    "@docusaurus/types": "3.10.2",
+    "@types/react": "^19.0.0",
+    "typescript": "~6.0.2"
   },
   "browserslist": {
     "production": [
@@ -44,12 +47,17 @@
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 3 chrome version",
+      "last 3 firefox version",
+      "last 5 safari version"
     ]
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=20.0"
+  },
+  "overrides": {
+    "tinypool": "^2.2.0",
+    "serialize-javascript": "^7.1.4",
+    "uuid": "^11.1.1"
   }
 }

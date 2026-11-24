@@ -1,0 +1,9 @@
+# Blog authors. Reference them by key in a post's `authors` front matter.
+# `page: true` gives the author a page at /blog/authors/<key>.
+granite-team:
+  name: IBM Granite Team
+  title: IBM Research
+  url: https://github.com/ibm-granite
+  page: true
+  socials:
+    github: ibm-granite
